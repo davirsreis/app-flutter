@@ -53,18 +53,23 @@ app.get('/',(req,res)=>{
     )
 })
 
-app.get(
-    '/comprar',
-    function(req,res){
-        res.send('<h1>Compras realizadas:</h1>')
-    }
-)
-
+let itensCount = 0;
+let itensId = [];
 app.post(
     '/comprar',
     function(req,res){
-        res.send(console.log('deu certo'))
+        itensCount++,
+        res.send(
+            console.log(`Itens no carrinho: ${itensCount}`)
+            )
         
+    }
+)
+
+app.get(
+    '/comprar',
+    function(req,res){
+        res.send(`<h1>Itens no carrinho: <span>${itensCount}</span></h1>`)
     }
 )
 
