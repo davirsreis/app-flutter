@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/roupa.dart';
@@ -51,7 +52,7 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
           title: const Text(
         'Loja de roupas',
-        style: const TextStyle(fontSize: 30),
+        style: TextStyle(fontSize: 30),
       )),
       body: ListView.builder(
           itemCount: roupas.length,
@@ -62,22 +63,22 @@ class HomePageState extends State<HomePage> {
                 leading: Image.network(
                   foto,
                   width: 100,
-                  height: 300,
+                  height: 100,
+                  fit: BoxFit.fitHeight,
                 ),
-                title: Text(roupas[index].nome,
-                    style: const TextStyle(fontSize: 25, color: Colors.black)),
-                subtitle: Text(roupas[index].descricao.toString() +
-                    roupas[index].medidas.toString()),
+                title: Text(
+                    "${roupas[index].descricao} Tamanho: ${roupas[index].medidas}",
+                    style: const TextStyle(fontSize: 20, color: Colors.black)),
+                subtitle: Text("Valor: ${roupas[index].valor}",
+                    style: const TextStyle(fontSize: 15, color: Colors.green)),
                 trailing: FloatingActionButton(
-                  child: Icon(Icons.add_shopping_cart),
-                  onPressed:
-                      null, /*() {
+                    child: const Icon(Icons.add_shopping_cart),
+                    onPressed: () {
                       servidor.comprar(roupas[index].id).then((response) {
                         dynamic resultado = json.decode(response.body);
                         print('Resultado = ${resultado['resultado']}');
                       });
-                    }*/
-                ));
+                    }));
           }),
     );
   }
