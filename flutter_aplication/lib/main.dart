@@ -1,13 +1,10 @@
-import 'dart:convert';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_aplication/roupa.dart';
 
-import 'roupa.dart';
-import 'http.dart';
+import 'CadastroPage.dart';
+import 'homePage.dart';
+import 'loginPage.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,78 +12,19 @@ class MyApp extends StatelessWidget {
   @override
   build(context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Roupas',
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      home: HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  @override
-  State<HomePage> createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  var roupas = [];
-
-  _getRoupas() {
-    servidor.listarRoupas().then((response) {
-      setState(() {
-        Iterable lista = json.decode(response.body);
-        roupas = lista.map((model) => Roupa.fromJson(model)).toList();
-      });
-    });
-  }
-
-  HomePageState() {
-    _getRoupas();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Loja de roupas',
-          style: TextStyle(fontSize: 30),
+        debugShowCheckedModeBanner: false,
+        title: 'Roupas',
+        theme: ThemeData(
+          primarySwatch: Colors.red,
         ),
-      ),
-      body: ListView.builder(
-          itemCount: roupas.length,
-          itemBuilder: (context, i) {
-            var foto = roupas[i].foto;
-
-            return ListTile(
-                leading: SizedBox(
-                  width: 100.0,
-                  height: 300.0,
-                  child: Image.network(
-                    foto,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                title: Text(
-                    "${roupas[i].descricao} Tamanho: ${roupas[i].medidas}",
-                    style: const TextStyle(fontSize: 20, color: Colors.black)),
-                subtitle: Text("Valor: ${roupas[i].valor}",
-                    style: const TextStyle(fontSize: 15, color: Colors.green)),
-                trailing: FloatingActionButton(
-                    child: const Icon(Icons.add_shopping_cart),
-                    onPressed: () {
-                      // ignore: avoid_print
-                      print("Id produto: ${roupas[i].id}");
-                      servidor.comprar(roupas[i].id).then((response) {
-                        //dynamic resultado = json.decode(response.body);
-                        //print('Resultado = ${resultado['resultado']}');
-                      });
-                    }));
-          }),
-    );
+        initialRoute: '/',
+        routes: {
+          '/': (context) => HomePage(),
+          '/login': (context) => loginPage(),
+          '/cadastro': (context) => cadastroPage(),
+          // When navigating to the "/second" route, build the SecondScreen widget.
+          //'/second': (context) => const SecondScreen(),
+          //home: HomePage(),
+        });
   }
 }
