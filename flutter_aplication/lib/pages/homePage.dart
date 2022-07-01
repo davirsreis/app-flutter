@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/roupa.dart';
 
-import 'roupa.dart';
-import 'http.dart';
+import '../roupa.dart';
+import '../http.dart';
 
 class HomePage extends StatefulWidget {
   @override
