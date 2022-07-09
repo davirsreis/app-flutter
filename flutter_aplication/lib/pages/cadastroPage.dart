@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
-class cadastroPage extends StatefulWidget {
-  @override
+
+class cadastroPage extends StatefulWidget{
+
   State<cadastroPage> createState() => cadastroPageState();
   TextEditingController nome = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController senha = TextEditingController();
   TextEditingController senhaConfirm = TextEditingController();
+
 }
+
 
 // ignore: camel_case_types
 class cadastroPageState extends State<cadastroPage> {

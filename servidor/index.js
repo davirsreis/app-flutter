@@ -6,6 +6,20 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json())
 
+const pg = require('pg');
+
+const client = new pg.Client(
+    {
+        user: 'postgres',
+        host: 'localhost',
+        database: 'flutter-aplication',
+        password: 'davi123',
+        port: 5432
+    }
+)
+
+client.connect();
+
 app.get('/',(req,res)=>{
     return res.json(
     [
