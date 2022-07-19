@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aplication/route.dart';
+
+import '../utils/user.simple.preferences.dart';
 
 class loginPage extends StatefulWidget {
+  static String routeName = '/login';
   @override
   State<loginPage> createState() => loginPageState();
-  TextEditingController email = TextEditingController();
-  TextEditingController senha = TextEditingController();
 }
 
 // ignore: camel_case_types
 class loginPageState extends State<loginPage> {
-  get email => null;
+  String senha = '';
+  String email = '';
+  
+  void initState() {
+    super.initState();
 
-  get senha => null;
+    String userEmail = UserSimplePreferences.getUseremail() ?? '';
+    String usersenha = UserSimplePreferences.getUsersenha() ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +42,18 @@ class loginPageState extends State<loginPage> {
                       const Text('Insira o seu e-mail e a sua senha',
                           style: TextStyle(fontSize: 20)),
                       const SizedBox(height: 20),
-                      TextField(
+                      TextFormField(
                         decoration: const InputDecoration(
                             label: Text('E-mail'),
                             border: OutlineInputBorder()),
-                        controller: email,
+                        onChanged: (email) => setState(() => this.email = email),
                       ),
                       const SizedBox(height: 20),
-                      TextField(
+                      TextFormField(
                         decoration: const InputDecoration(
                             label: Text('Senha'), border: OutlineInputBorder()),
-                        controller: senha,
                         obscureText: true,
+                        onChanged: (senha) => setState(() => this.senha = senha),
                       ),
                       const SizedBox(height: 20),
                       Row(
@@ -53,22 +61,29 @@ class loginPageState extends State<loginPage> {
                           children: [
                             ElevatedButton(
                                 child: const Text('Criar conta'),
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {
                                     try {
-                                      Navigator.pushReplacementNamed(
-                                          context, '/cadastro');
+
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, '/cadastro', (route) => false);
                                     } catch (e) {}
                                   });
                                 }),
                             const SizedBox(width: 10),
                             ElevatedButton(
                                 child: const Text('Logar'),
-                                onPressed: () {
+                                onPressed: () async {
                                   setState(() {
                                     try {
-                                      Navigator.pushReplacementNamed(
-                                          context, '/');
+                                      UserSimplePreferences.setUseremail(email);
+                                      UserSimplePreferences.setUsersenha(senha);
+                                      // ignore: avoid_print
+                                      print(email);
+                                      // ignore: avoid_print
+                                      print(senha);
+                                      Navigator.pushNamedAndRemoveUntil(
+                                          context, '/homepage', (route) => false);
                                     } catch (e) {}
                                   });
                                 }),

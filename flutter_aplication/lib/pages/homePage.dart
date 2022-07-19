@@ -3,29 +3,50 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/roupa.dart';
+import 'package:flutter_aplication/utils/user.simple.preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../roupa.dart';
 import '../http.dart';
+import '../utils/user.simple.preferences.dart';
 
 class HomePage extends StatefulWidget {
+  static String routeName = '/homepage';
   @override
   State<HomePage> createState() => HomePageState();
+
+  
 }
+
 
 class HomePageState extends State<HomePage> {
   var roupas = [];
+  
+  get userEmail => UserSimplePreferences.getUseremail();
+  get userSenha => UserSimplePreferences.getUsersenha();
 
   _getRoupas() {
     servidor.listarRoupas().then((response) {
-      setState(() {
+      if (mounted) {
+        setState(() {
         Iterable lista = json.decode(response.body);
         roupas = lista.map((model) => Roupa.fromJson(model)).toList();
       });
+      }
+      
     });
   }
 
-  HomePageState() {
+  HomePageState() {    
     _getRoupas();
+
+    print(userEmail);
+    if(userEmail==null/* || userSenha==null*/){
+      if (mounted){
+        Navigator.pop(context, '/login');
+      }
+    }
+    
   }
 
   @override
