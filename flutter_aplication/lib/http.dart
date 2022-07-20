@@ -15,9 +15,9 @@ class servidor {
     return await http.post(url, body: {'id': '$id'});
   }
 
-  static Future cadastrarUsuario(String nome, String email, String senha) async {
+  static Future cadastrarUsuario(String nome, String email, String endereco, String senha) async {
     var url = Uri.http('localhost:8080', '/cadastro');
-    var response = await http.post(url, body: {'nome': nome, 'email': email, 'senha': senha});
+    var response = await http.post(url, body: {'nome': nome, 'email': email, 'endereco': endereco, 'senha': senha});
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     return response;

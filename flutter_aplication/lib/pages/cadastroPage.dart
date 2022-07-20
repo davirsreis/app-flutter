@@ -19,12 +19,13 @@ class cadastroPageState extends State<cadastroPage> {
   var users = [];
   String nome = '';
   String email = '';
+  String endereco = '';
   String senha = '';
   String senhaConfirm = '';
 
 _postUser() {
-    servidor.cadastrarUsuario(nome, email, senha).then((response) { 
-    var jsonData = '{"nome": "$nome", "email": "$email", "senha": "$senha"}';
+    servidor.cadastrarUsuario(nome, email, endereco, senha).then((response) { 
+    var jsonData = '{"nome": "$nome", "email": "$email", "endereco": "$endereco", "senha": "$senha"}';
     var parsedJson = json.decode(jsonData);
     print('${parsedJson.runtimeType} : $parsedJson');
 
@@ -66,6 +67,13 @@ _postUser() {
                             label: Text('E-mail'),
                             border: OutlineInputBorder()),
                         onChanged: (email) => setState(() => this.email = email),
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            label: Text('Endereço'),
+                            border: OutlineInputBorder()),
+                        onChanged: (endereco) => setState(() => this.endereco = endereco),
                       ),
                       const SizedBox(height: 20),
                       TextFormField(

@@ -22,7 +22,7 @@ const url = MONGO_CNSTRING
 const dbName = 'flutter-db';
 const client = new MongoClient(url);
 
-function newUser(nome, email, senha){
+function newUser(nome, email, endereco, senha){
     client.connect(async function (err) {
         console.log('Connected successfully to server');
 
@@ -31,12 +31,37 @@ function newUser(nome, email, senha){
         const usuarios = db.collection('usuarios')
         console.log('enviando dados');
           await usuarios.insertOne({
-             _id: new ObjectID(), nome: nome, email: email, senha: senha,
+             _id: new ObjectID(), nome: nome, email: email, endereco: endereco, senha: senha,
         })
     
         client.close()
     })
 }
+
+
+function userExists() {
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+
+        const db = client.db(dbName)
+        const usuarios = db.collection('usuarios')
+        console.log('enviando dados');
+
+        if (err) throw err;
+        db.collection("usuarios").find({}).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            console.log(result[0].email);
+            client.close()
+        });
+        
+    
+        
+    })
+}
+
+userExists();
 
 
 
@@ -52,8 +77,9 @@ router.post('/cadastro',(request,response) => {
     console.log(request.body);
     Nome = request.body.nome;
     Email = request.body.email;
+    Endereco = request.body.endereco;
     Senha = request.body.senha;
-    newUser(Nome,Email,Senha);
+    newUser(Nome,Email,Endereco,Senha);
 });
 
 
