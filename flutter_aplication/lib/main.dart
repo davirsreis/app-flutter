@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_aplication/pages/splashPage.dart';
 import 'package:flutter_aplication/route.dart';
 //import 'package:postgres/postgres.dart';
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
@@ -79,7 +80,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         routes: routes,
-        home: HomePage(),
+        home: splashPage(),
         );
   }
 }

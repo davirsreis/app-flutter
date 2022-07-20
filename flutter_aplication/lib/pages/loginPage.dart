@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/route.dart';
 
-import '../utils/user.simple.preferences.dart';
+import '../prefs_service.dart';
 
 class loginPage extends StatefulWidget {
   static String routeName = '/login';
@@ -11,15 +11,9 @@ class loginPage extends StatefulWidget {
 
 // ignore: camel_case_types
 class loginPageState extends State<loginPage> {
-  String senha = '';
+  late Map<String, String> usrdata;
   String email = '';
-  
-  void initState() {
-    super.initState();
-
-    String userEmail = UserSimplePreferences.getUseremail() ?? '';
-    String usersenha = UserSimplePreferences.getUsersenha() ?? '';
-  }
+  String senha = '';
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +58,8 @@ class loginPageState extends State<loginPage> {
                                 onPressed: () async {
                                   setState(() {
                                     try {
-
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, '/cadastro', (route) => false);
-                                    } catch (e) {}
+                                      Navigator.pushNamedAndRemoveUntil(context, '/cadastro', (route) => false);
+                                    } catch (e) {print(e);}
                                   });
                                 }),
                             const SizedBox(width: 10),
@@ -76,15 +68,11 @@ class loginPageState extends State<loginPage> {
                                 onPressed: () async {
                                   setState(() {
                                     try {
-                                      UserSimplePreferences.setUseremail(email);
-                                      UserSimplePreferences.setUsersenha(senha);
-                                      // ignore: avoid_print
-                                      print(email);
-                                      // ignore: avoid_print
-                                      print(senha);
-                                      Navigator.pushNamedAndRemoveUntil(
-                                          context, '/homepage', (route) => false);
-                                    } catch (e) {}
+                                      if(email!=''){
+                                        PrefsService.save(email);
+                                      }
+                                      Navigator.pushNamedAndRemoveUntil(context, '/homepage', (route) => false);
+                                    } catch (e) {print(e);}
                                   });
                                 }),
                           ])

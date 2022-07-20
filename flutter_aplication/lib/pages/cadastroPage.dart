@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_aplication/http.dart';
 import 'package:flutter_aplication/pages/homePage.dart';
 import 'package:flutter_aplication/user.dart';
-//import 'package:servidor/db.js';
+import '../prefs_service.dart';
 
 
 class cadastroPage extends StatefulWidget{
@@ -31,10 +31,6 @@ _postUser() {
     var nomee = parsedJson['nome'];
     var emaill = parsedJson['email'];
     print('$nomee e $emaill');
-    //dynamic resultado = json.decode(response.body);
-
-    // ignore: avoid_print
-  //print('Resultado = ${resultado['resultado']}');
   });
 }
 
@@ -62,10 +58,6 @@ _postUser() {
                       TextFormField(
                         decoration: const InputDecoration(
                             label: Text('Nome'), border: OutlineInputBorder()),
-                            //@Operation.post()
-                            //Future<Response> createNewRead() async {
-                            //  return Response.nome;
-                            //}
                         onChanged: (nome) => setState(() => this.nome = nome),
                       ),
                       const SizedBox(height: 20),
@@ -111,60 +103,22 @@ _postUser() {
                                   setState(() {
                                     try{
 
-                                      _postUser();
-                                      
-                                      
-                                      
+                                      if (senha == senhaConfirm){
+                                        _postUser();
+                                        PrefsService.save(email);
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return const AlertDialog(
+                                              title: Text('Atenção'),
+                                              content: Text('Senhas não coincidem'),
+                                            );
+                                          });
+                                      }
                                     } catch(e) {print('error'); }
                                   });
-                                  
-
-                                    // _postNovoUsuario() async {
-                                    //   servidor.cadastrarUsuario(nome, email, senha).then((response) {
-                                    //   // ignore: avoid_print
-                                    //   print(response);
-                                    //   // ignore: void_checks
-                                    //   if (response.status == 200) { return response.json();}
-  
-                                    //   });
-                                    // }
-                                    // _postNovoUsuario();
-
-
-                                    // ignore: unused_element
-                                    //insertCustomer(data) async {
-                                      //const sql = r'INSERT INTO usuarios(nome,email,senha) VALUES ($1,$2,$3);';
-                                      //const values = [data.nome, data.email, data.senha];
-                                      //return await client.query(sql, values);
-                                    //}
-
-                                    
-                                  // setState(() {
-                                  //   try {
-                                  //    if (senha == senhaConfirm) {
-                                  //       print(senha);
-                                  //       print(senhaConfirm);
-                                  //       print('entrou aqui no if');
-                                  //       Navigator.popAndPushNamed(context, '/');
-                                  //     } else {
-                                  //       print('entrou aqui no else');
-                                  //       AlertDialog(
-                                  //          title: const Text(
-                                  //               'Senhas não coincidem'),
-                                  //           content: SingleChildScrollView(
-                                  //               child: ElevatedButton(
-                                  //                   child: const Text('Ok'),
-                                  //                   onPressed: () {
-                                  //                     Navigator.of(context)
-                                  //                         .pop();
-                                  //                   })));
-                                  //     }
-                                  //   } catch (e) {
-                                  //     print(senha);
-                                  //     print(senhaConfirm);
-                                  //     print('error');
-                                  //   }
-                                  // });
                                 }),
                           ])
                     ]))),

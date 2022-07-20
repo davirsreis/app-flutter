@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 
 
@@ -56,64 +56,29 @@ router.post('/cadastro',(request,response) => {
     newUser(Nome,Email,Senha);
 });
 
+
+// router.get('/usuarios',(request,response) => {
+//     //code to perform particular action.
+//     //To access GET variable use req.query() and req.params() methods.
+//     });
+
+// router.get('/usuarios',(request,response) => {
+//     client.connect(async function (err) {
+//         console.log('Connected successfully to server');
+
+
+//         const db = client.db(dbName)
+//         const usuarios = db.collection('usuarios');
+//         console.log('enviando usuarios');
+//         let users = [];
+//         console.log();
+        
+//         client.close()
+//     })
+// });
+
 // add router in the Express app.
 app.use("/", router);
-
-
-
-// app.post(
-//         '/cadastro',
-//      function(req,res){
-//          res.send(
-//             console.log(`teste`),
-            
-//         )
-        
-//      }
-//  )
-
-// const pg = require('pg');
-
-// const client = new pg.Client(
-//     {
-//         user: 'postgres',
-//         host: 'localhost',
-//         database: 'flutter-aplication',
-//         password: 'davi123',
-//         port: 5432
-//     }
-// )
-
-// client.connect();
-
-// async function selectCustomers() {
-//     //const client = await connect();
-//     const res = await client.query('SELECT * FROM usuarios');
-//     console.log(res.rows);
-//     return res.rows;
-
-// }
-
-// async function insertCustomer(customer){
-//     //const client = await connect();
-//     const sql = 'INSERT INTO usuarios(nome,email,senha) VALUES ($1,$2,$3);';
-//     const values = [customer.nome, customer.email, customer.senha];
-//     return await client.query(sql, values);
-// }
-
-// function cadastrarUsuario(nome,email,senha){
-//     (async () => {
-//         //const db = require("./db");
-//         console.log('Começou!');
-        
-//         console.log('INSERT INTO usuarios');
-//         const result = await insertCustomer({nome: nome, email: email, senha: senha});
-//         console.log(result.rowCount);
-    
-//     })();
-// }
-
-//cadastrarUsuario('teste','teste@gmail.com','12345');
 
 app.get('/',(req,res)=>{
     return res.json(
@@ -156,7 +121,119 @@ app.get('/',(req,res)=>{
             descricao: "Moletom - Preta",
             foto: "https://i0.wp.com/static.dafiti.com.br/p/Benellys-Cal%C3%A7a-Moletom-Flanelado-Masculino-Benellys-Lisa-Preto-7109-7001398-1-zoom.jpg?&ssl=1",
             medidas: "M",
-            valor: 109.99
+            valor: 99.99
+        },
+        {
+            id: 6,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 7,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 7,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 8,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 9,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 10,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 11,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 12,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 13,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 14,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 15,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 16,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 17,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
+        },
+        {
+            id: 18,
+            nome: "",
+            descricao: "Produto",
+            foto: "",
+            medidas: "?",
+            valor: 0.0
         },
     ]
     )
