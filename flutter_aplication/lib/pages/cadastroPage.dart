@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/http.dart';
 import 'package:flutter_aplication/pages/homePage.dart';
-import 'package:flutter_aplication/user.dart';
+import 'package:flutter_aplication/models/user.dart';
 import '../prefs_service.dart';
 
 
@@ -114,7 +114,7 @@ _postUser() {
                                       if (senha == senhaConfirm){
                                         _postUser();
                                         PrefsService.save(email);
-                                        Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/homepage', (Route<dynamic> route) => false);
                                       } else {
                                         showDialog(
                                           context: context,

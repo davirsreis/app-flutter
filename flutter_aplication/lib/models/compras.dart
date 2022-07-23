@@ -1,14 +1,14 @@
 import 'package:flutter_aplication/http.dart';
 
-class Roupa {
+class Item {
   int? id;
   String? nome;
   String? descricao;
   String? foto;
   String? medidas;
-  double? valor;
+  String? valor;
 
-  Roupa(
+  Item(
       {this.id,
       this.nome,
       this.descricao,
@@ -16,7 +16,7 @@ class Roupa {
       this.medidas,
       this.valor});
 
-  Roupa.fromJson(Map<String, dynamic> json) {
+  Item.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
     descricao = json['descricao'];

@@ -4,11 +4,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/pages/loginPage.dart';
-import 'package:flutter_aplication/roupa.dart';
+import 'package:flutter_aplication/models/roupa.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../roupa.dart';
+import '../models/roupa.dart';
 import '../http.dart';
 import '../prefs_service.dart';
 
@@ -22,6 +22,20 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   var roupas = [];
+
+
+  _getRoupas() {
+  servidor.listarRoupas().then((response) {
+    if (mounted) {
+      setState(() {
+      Iterable lista = json.decode(response.body);
+      roupas = lista.map((model) => Roupa.fromJson(model)).toList();
+    });
+    }
+    
+  });
+}
+
   
 
   // @override
@@ -36,19 +50,18 @@ class HomePageState extends State<HomePage> {
   //   : Navigator.of(context).pushReplacementNamed('/login'));
   // }
 
+//   _addCart() {
+//     servidor.adicionarCarrinho(idProduto).then((response) {
 
+//     idProduto = roupas[i].id;
+//     print(idProduto);
+//     var jsonData = '{"idProduto": "$idProduto"}';
+//     var parsedJson = json.decode(jsonData);
+//     print('${parsedJson.runtimeType} : $parsedJson');
 
-  _getRoupas() {
-    servidor.listarRoupas().then((response) {
-      if (mounted) {
-        setState(() {
-        Iterable lista = json.decode(response.body);
-        roupas = lista.map((model) => Roupa.fromJson(model)).toList();
-      });
-      }
-      
-    });
-  }
+//   });
+// }
+
 
 Future sleep1() {
   return Future.delayed(const Duration(seconds: 3), () => "3");
@@ -66,10 +79,16 @@ Future sleep1() {
           'Loja de roupas',
           style: TextStyle(fontSize: 30),
         ),
-        actions: [IconButton(onPressed: () => {
+        actions: [
+          IconButton(onPressed: () => {
+          PrefsService.logout(),
+          Navigator.of(context).pushReplacementNamed('/carrinho')
+        }, icon: const Icon(Icons.shopping_cart),),
+        IconButton(onPressed: () => {
           PrefsService.logout(),
           Navigator.of(context).pushNamedAndRemoveUntil('/login', (_) => true)
-        }, icon: Icon(Icons.logout),)],
+        }, icon: const Icon(Icons.logout),)
+        ]
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(10),
@@ -94,10 +113,24 @@ Future sleep1() {
                 backgroundColor: Colors.white,
                 hoverColor: Colors.red,
                 child: const Icon(Icons.shopping_cart),
-                onPressed: () { //ignore: avoid_print
-                      print("Id produto: ${roupas[i].id}");
-                      servidor.comprar(roupas[i].id).then((response) {
-                      }); 
+                onPressed: () {
+
+                  var desc = roupas[i].descricao;
+                  var val = roupas[i].valor;
+                  val.toString();
+                  print(desc.runtimeType);
+                  print(val.runtimeType);
+                  servidor.adicionarCarrinho(desc, val).then((response) {
+                  
+                  var jsonData = '{"descricao": "$desc", "valor": "$val"}';
+                  var parsedJson = json.decode(jsonData);
+                  //print('${parsedJson.runtimeType} : $parsedJson');
+                  });
+
+
+                      // print("Id produto: ${roupas[i]._id}");
+                      // servidor.comprar(roupas[i].id).then((response) {
+                      // }); 
                   },
               )
 

@@ -6,6 +6,8 @@ const router = express.Router();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
+const { promisify } = require('util')
+const sleep = promisify(setTimeout)
 
 
 
@@ -37,31 +39,63 @@ function newUser(nome, email, endereco, senha){
         client.close()
     })
 }
-
-
-function userExists() {
+var isAuth = false;
+function userExists(email, senha) {
     client.connect(async function (err) {
         console.log('Connected successfully to server');
 
-
         const db = client.db(dbName)
         const usuarios = db.collection('usuarios')
-        console.log('enviando dados');
+        console.log('Email informado: ', email,'Senha informada:', senha);
 
         if (err) throw err;
-        db.collection("usuarios").find({}).toArray(function(err, result) {
+        db.collection("usuarios").find({ email: email, senha: senha }).toArray(function(err, result) {   
             if (err) throw err;
-            console.log(result);
-            console.log(result[0].email);
-            client.close()
+
+            client.close();
+
+    if(result.length == 1){
+        console.log('login autorizado!');
+        return isAuth = true;
+    } else { 
+        console.log('login não autorizado!');
+        return isAuth = false;
+    };
+            
         });
-        
-    
-        
     })
 }
 
-userExists();
+
+
+router.post('/login',(request,response) => {
+    //code to perform particular action.
+    //To access POST variable use req.body()methods.
+    
+        //console.log(request.body);
+        Email = request.body.email;
+        Senha = request.body.senha;
+        userExists(Email, Senha);
+        sleep(1000).then(() => {
+            if(isAuth==true){
+                response.statusCode=200;
+                console.log('isAuth true');
+            } else {
+                response.statusCode=404;
+                console.log('isAuth false');
+            }
+          })
+
+        //return response.statusCode=404;
+
+        
+            // if(isAuth==1){
+        //     response.statusCode = 200;
+        // } else {
+        //     response.statusCode = 404;
+        // }
+        //console.log(response.header);
+});
 
 
 
@@ -82,208 +116,119 @@ router.post('/cadastro',(request,response) => {
     newUser(Nome,Email,Endereco,Senha);
 });
 
+router.post('/addCarrinho',(request,response) => {
+    //code to perform particular action.
+    //To access POST variable use req.body()methods.
+    
+        console.log(request.body);
+        Descricao = request.body.descricao;
+        Valor = request.body.valor;
+        String(Valor);
+        newCompra(Descricao, Valor);
+});
 
-// router.get('/usuarios',(request,response) => {
-//     //code to perform particular action.
-//     //To access GET variable use req.query() and req.params() methods.
-//     });
-
-// router.get('/usuarios',(request,response) => {
-//     client.connect(async function (err) {
-//         console.log('Connected successfully to server');
+function newCompra(descricao, valor){
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
 
 
-//         const db = client.db(dbName)
-//         const usuarios = db.collection('usuarios');
-//         console.log('enviando usuarios');
-//         let users = [];
-//         console.log();
-        
-//         client.close()
-//     })
-// });
+        const db = client.db(dbName)
+        const carrinho = db.collection('carrinho')
+        console.log('adicionando ao carrinho');
+          await carrinho.insertOne({
+             _id: new ObjectID(), descricao: descricao, valor: valor,
+        })
+    
+        client.close()
+    })
+}
+
+router.post('/delItem',(request,response) => {
+    //code to perform particular action.
+    //To access POST variable use req.body()methods.
+    
+        console.log(request.body);
+        Descricao = request.body.descricao;
+        delCompra(Descricao);
+});
+
+function delCompra(descricao, valor){
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+
+        const db = client.db(dbName)
+        const carrinho = db.collection('carrinho')
+        console.log('adicionando ao carrinho');
+          await carrinho.deleteOne({
+             descricao: descricao,
+        })
+    
+        client.close()
+    })
+}
+
 
 // add router in the Express app.
 app.use("/", router);
 
 app.get('/',(req,res)=>{
-    return res.json(
-    [
-        {
-            id: 1,
-            nome: "Camiseta",
-            descricao: "StarWars (Darth Vader) - Preta Estampada",
-            foto: "https://i0.wp.com/cf.shopee.com.br/file/648f35203f521789bc3ac4a9609349b1?&ssl=1",
-            medidas: "M",
-            valor: 34.99
-        },
-        {
-            id: 2,
-            nome: "Camiseta",
-            descricao: "StarWars - Preta com Amarelo",
-            foto: "https://i0.wp.com/www.veinerd.com/uploads/products/large/starwars-1.jpg?&ssl=1",
-            medidas: "M",
-            valor: 39.99
-        },
-        {
-            id: 3,
-            nome: "Camiseta",
-            descricao: "Stranger Things - Preta Estampada",
-            foto: "https://i0.wp.com/img.elo7.com.br/product/zoom/275DB1A/camiseta-stranger-things-3-temporada-estampa-total-serie.jpg?&ssl=1",
-            medidas: "M",
-            valor: 44.99
-        },
-        {
-            id: 4,
-            nome: "Calça",
-            descricao: "Moletom - Cinza",
-            foto: "https://i0.wp.com/static.netshoes.com.br/produtos/calca-moletom-dead-love-masculina/10/JBB-0409-010/JBB-0409-010_zoom1.jpg?ts=1580900397?&ssl=1",
-            medidas: "M",
-            valor: 99.99
-        },
-        {
-            id: 5,
-            nome: "Calça",
-            descricao: "Moletom - Preta",
-            foto: "https://i0.wp.com/static.dafiti.com.br/p/Benellys-Cal%C3%A7a-Moletom-Flanelado-Masculino-Benellys-Lisa-Preto-7109-7001398-1-zoom.jpg?&ssl=1",
-            medidas: "M",
-            valor: 99.99
-        },
-        {
-            id: 6,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 7,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 7,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 8,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 9,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 10,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 11,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 12,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 13,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 14,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 15,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 16,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 17,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-        {
-            id: 18,
-            nome: "",
-            descricao: "Produto",
-            foto: "",
-            medidas: "?",
-            valor: 0.0
-        },
-    ]
-    )
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+        const db = client.db(dbName)
+        const usuarios = db.collection('usuarios')
+
+        if (err) throw err;
+        db.collection("produto").find({  }).toArray(function(err, result) {   
+        if (err) throw err;
+        client.close()
+        return res.json(
+            result
+        )
+        });
+    })
+   
 })
 
-// let itensCount = 0;
-// let itensId = [];
-// app.post(
-//     '/comprar',
-//     function(req,res){
-//         itensCount++,
-//         res.send(
-//             console.log(`Itens no carrinho: ${itensCount}`)
-//             )
-        
-//     }
-// )
+app.get('/carrinho',(req,res)=>{
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
 
-// app.get(
-//     '/comprar',
-//     function(req,res){
-//         res.send(`<h1>Itens no carrinho: <span>${itensCount}</span></h1>`)
-//     }
-// )
+        const db = client.db(dbName)
+        const carrinho = db.collection('carrinho')
+
+        if (err) throw err;
+        db.collection("carrinho").find({  }).toArray(function(err, result) {   
+        if (err) throw err;
+        client.close()
+        return res.json(
+            result
+        )
+        });
+    })
+   
+})
+
+app.get('/usuarios',(req,res)=>{
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+        const db = client.db(dbName)
+        const usuarios = db.collection('usuarios')
+
+        if (err) throw err;
+        db.collection("usuarios").find({  }).toArray(function(err, result) {   
+        if (err) throw err;
+        client.close()
+        //console.log(result)
+        return res.json(
+            result
+        )
+        });
+    })
+   
+})
 
 app.listen(
     8080,

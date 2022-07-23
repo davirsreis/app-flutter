@@ -29,20 +29,23 @@ class splashPageState extends State<splashPage> {
   }
 
   splashPageState() {  
-
+    initState();
   }
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Carregando...',
-          style: TextStyle(fontSize: 30),
+    return const Scaffold(
+      backgroundColor: Colors.red,
+      body: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Center(
+          child: Icon(
+            Icons.shop,
+            color: Colors.white,
+            size: 100.0,
         ),
       ),
-      backgroundColor: Colors.red,
-    );
+    ));
   }
 
 }

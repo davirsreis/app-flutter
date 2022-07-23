@@ -1,5 +1,6 @@
 import 'package:flutter_aplication/pages/cadastroPage.dart';
 import 'package:flutter_aplication/pages/loginPage.dart';
+import 'package:flutter_aplication/pages/carrinhoPage.dart';
 import 'package:flutter_aplication/pages/homePage.dart';
 
 var routes = {
@@ -7,5 +8,6 @@ var routes = {
   loginPage.routeName: (context) => loginPage(),
   // ignore: prefer_const_constructors
   cadastroPage.routeName: (context) => cadastroPage(),
-  HomePage.routeName: (context) => HomePage()
+  HomePage.routeName: (context) => HomePage(),
+  CarrinhoPage.routeName: (context) => CarrinhoPage(),
 };

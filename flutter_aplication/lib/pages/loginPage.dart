@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/route.dart';
-
+import 'package:flutter_aplication/http.dart';
+import 'package:http/http.dart';
 import '../prefs_service.dart';
+import 'dart:convert';
+
+import '../models/user.dart';
 
 class loginPage extends StatefulWidget {
   static String routeName = '/login';
@@ -14,6 +18,44 @@ class loginPageState extends State<loginPage> {
   late Map<String, String> usrdata;
   String email = '';
   String senha = '';
+  int isAuth = 0;
+
+    var usuarios = [];
+  // var roupas = [];
+  // int j = 0;
+
+  _getUsuarios() {
+    servidor.listarUsuarios().then((response) {
+      if (mounted) {
+        setState(() {
+        Iterable lista = json.decode(response.body);
+        usuarios = lista.map((model) => User.fromJson(model)).toList();
+
+      });
+      }
+    });
+  }
+
+  // _testAuth() {
+  //   servidor.authUsuario(email, senha).then((response) { 
+  //   var jsonData = '{"email": "$email", "senha": "$senha"}';
+  //   var parsedJson = json.decode(jsonData);
+  //   print(response.statusCode == 200);
+  //   if(response.statusCode == 200){
+  //     return isAuth = true;
+  //   } else {
+  //     return isAuth = false;
+  //   }
+//     //print('${parsedJson.runtimeType} : $parsedJson');
+//     //print(response.statusCode);
+
+//   });
+// }
+
+  loginPageState() {  
+    _getUsuarios();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +108,55 @@ class loginPageState extends State<loginPage> {
                             ElevatedButton(
                                 child: const Text('Logar'),
                                 onPressed: () async {
+                                  var qtd = usuarios.length;
                                   setState(() {
                                     try {
-                                      if(email!=''){
-                                        PrefsService.save(email);
+                                      for (var i=1;i<qtd;i++){
+                                        if(email==usuarios[i].email && senha==usuarios[i].senha){
+                                          //print('usuario encontrado');
+                                          isAuth = 1;
+                                        } else {
+                                          //print('usuario não encontrado');
+                                        }
                                       }
-                                      Navigator.pushNamedAndRemoveUntil(context, '/homepage', (route) => false);
+                                      if(isAuth==1){
+                                        print('autorizado');
+                                        PrefsService.save(email);
+                                        Navigator.of(context).pushNamedAndRemoveUntil('/homepage', (Route<dynamic> route) => false);
+                                      } else {
+                                        print('nao autorizado');
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return const AlertDialog(
+                                              title: Text('Atenção'),
+                                              content: Text('Não foi possível realizar o seu login, verefique os dados informados e tente novamente!'),
+                                            );
+                                          });
+                                      }
+
+                                      //_testAuth();
+
+                                      // if (_testAuth()==true){
+                                      //   print('autorizado');
+                                      //   //PrefsService.save(email);
+                                      //   Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+                                      // } else {
+                                      //   print('nao autorizado');
+                                      //   showDialog(
+                                      //     context: context,
+                                      //     builder: (BuildContext context) {
+                                      //       return const AlertDialog(
+                                      //         title: Text('Atenção'),
+                                      //         content: Text('Não foi possível realizar o seu login, verefique os dados informados e tente novamente!'),
+                                      //       );
+                                      //     });
+                                      // }
+
+                                      // if(email!=''){
+                                      //   PrefsService.save(email);
+                                      // }
+                                      //Navigator.pushNamedAndRemoveUntil(context, '/homepage', (route) => false);
                                     } catch (e) {print(e);}
                                   });
                                 }),
