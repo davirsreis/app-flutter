@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/pages/loginPage.dart';
+import 'package:flutter_aplication/pages/itemPage.dart';
 import 'package:flutter_aplication/models/roupa.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,30 +32,6 @@ class HomePageState extends State<HomePage> {
       }
     });
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   Future.wait([
-  //     PrefsService.isAuth(),
-  //     Future.delayed(Duration(seconds: 3)),
-  //   ]).then((value) => value[0]
-  //   ? Navigator.of(context).pushReplacementNamed('/')
-  //   : Navigator.of(context).pushReplacementNamed('/login'));
-  // }
-
-//   _addCart() {
-//     servidor.adicionarCarrinho(idProduto).then((response) {
-
-//     idProduto = roupas[i].id;
-//     print(idProduto);
-//     var jsonData = '{"idProduto": "$idProduto"}';
-//     var parsedJson = json.decode(jsonData);
-//     print('${parsedJson.runtimeType} : $parsedJson');
-
-//   });
-// }
 
   Future sleep1() {
     return Future.delayed(const Duration(seconds: 3), () => "3");
@@ -102,9 +79,26 @@ class HomePageState extends State<HomePage> {
           return GridTile(
               key: ValueKey(roupas[i]),
               // ignore: sort_child_properties_last
-              child: Image.network(
-                foto,
-                fit: BoxFit.cover,
+              child: GestureDetector(
+                child: Image.network(
+                  foto,
+                  fit: BoxFit.cover,
+                ),
+                onTap: () {
+                  var tipo = roupas[i].nome;
+                  var desc = roupas[i].descricao;
+                  var cor = roupas[i].cor;
+                  var img = roupas[i].foto;
+                  var val = roupas[i].valor;
+                  //print(value);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ItemPage(tipo, desc, cor, img, val)));
+                  // Navigator.of(context)
+                  //     .pushNamedAndRemoveUntil('/itempage', (_) => true);
+                },
               ),
               footer: GridTileBar(
                   backgroundColor: Colors.black54,

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'dart:async';
+import 'package:select_form_field/select_form_field.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/models/compras.dart';
@@ -16,9 +17,25 @@ class CarrinhoPage extends StatefulWidget {
   State<CarrinhoPage> createState() => CarrinhoPageState();
 }
 
+final List<Map<String, dynamic>> _sizes = [
+  {
+    'value': 'P',
+    'label': 'P',
+  },
+  {
+    'value': 'M',
+    'label': 'M',
+  },
+  {
+    'value': 'G',
+    'label': 'G',
+  },
+];
+
 class CarrinhoPageState extends State<CarrinhoPage> {
   var itens = [];
   var valortotal = 0.0;
+
   // static double valortotal = 200.0;
   // valortotal.toString();
   // var roupas = [];
@@ -107,13 +124,9 @@ class CarrinhoPageState extends State<CarrinhoPage> {
               onPressed: () async {
                 setState(() {
                   try {
-                    print(valortotal);
-                    // for (var j = 0; j < itens.length; j++) {
-                    //   print(itens[i].valor);
-                    //   valortotal += itens[i].valor.toDouble();
-                    // }
                     // ignore: avoid_print
-                    print('finalizar compra');
+                    print(valortotal);
+                    //print('finalizar compra');
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -141,9 +154,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                             ],
                           );
                         });
-
-                    //Navigator.pushNamedAndRemoveUntil(
-                    //context, '/cadastro', (route) => false);
                   } catch (e) {
                     print(e);
                   }
@@ -151,11 +161,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
               }),
         ])
       ],
-      //const SizedBox(height: 20),
-      //Row(
-      // mainAxisAlignment: MainAxisAlignment.center,
-
-      //),
     );
   }
 }
