@@ -24,7 +24,7 @@ const url = MONGO_CNSTRING
 const dbName = 'flutter-db';
 const client = new MongoClient(url);
 
-function newUser(nome, email, endereco, senha){
+function newUser(nome, email, endereco, senha){ // Envia os dados de um novo usuário cadastrado para o banco
     client.connect(async function (err) {
         console.log('Connected successfully to server');
 
@@ -39,8 +39,9 @@ function newUser(nome, email, endereco, senha){
         client.close()
     })
 }
+
 var isAuth = false;
-function userExists(email, senha) {
+function userExists(email, senha) { // Verifica se o email e senha informados estão cadastrados no banco
     client.connect(async function (err) {
         console.log('Connected successfully to server');
 
@@ -60,53 +61,77 @@ function userExists(email, senha) {
     } else { 
         console.log('login não autorizado!');
         return isAuth = false;
-    };
-            
+    };      
         });
     })
 }
 
+function newCompra(descricao,foto, valor){// Adiciona um item no carrinho
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
 
+
+        const db = client.db(dbName)
+        const carrinho = db.collection('carrinho')
+        console.log('adicionando ao carrinho');
+          await carrinho.insertOne({
+             _id: new ObjectID(), descricao: descricao, foto: foto, valor: valor,
+        })
+    
+        client.close()
+    })
+}
+
+function delCompra(descricao, valor){// Tira um item do carrinho
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+
+        const db = client.db(dbName)
+        const carrinho = db.collection('carrinho')
+        console.log('removendo do carrinho');
+          await carrinho.deleteOne({
+             descricao: descricao,
+        })
+    
+        client.close()
+    })
+}
+
+function zerarCarrinho(){// Tira um item do carrinho
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+
+        const db = client.db(dbName)
+        const carrinho = db.collection('carrinho')
+        console.log('Limpando carrinho');
+          await carrinho.deleteMany()
+    
+        client.close()
+    })
+}
 
 router.post('/login',(request,response) => {
-    //code to perform particular action.
-    //To access POST variable use req.body()methods.
-    
-        //console.log(request.body);
-        Email = request.body.email;
-        Senha = request.body.senha;
-        userExists(Email, Senha);
-        sleep(1000).then(() => {
-            if(isAuth==true){
-                response.statusCode=200;
-                console.log('isAuth true');
-            } else {
-                response.statusCode=404;
-                console.log('isAuth false');
-            }
-          })
-
-        //return response.statusCode=404;
-
-        
-            // if(isAuth==1){
-        //     response.statusCode = 200;
-        // } else {
-        //     response.statusCode = 404;
-        // }
-        //console.log(response.header);
+    Email = request.body.email;
+    Senha = request.body.senha;
+    userExists(Email, Senha);
+    sleep(1000).then(() => {
+        if(isAuth==true){
+            response.statusCode=200;
+            console.log('isAuth true');
+        } else {
+            response.statusCode=404;
+            console.log('isAuth false');
+        }
+        })
 });
-
-
-
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 router.post('/cadastro',(request,response) => {
-//code to perform particular action.
-//To access POST variable use req.body()methods.
 
     console.log(request.body);
     Nome = request.body.nome;
@@ -117,57 +142,27 @@ router.post('/cadastro',(request,response) => {
 });
 
 router.post('/addCarrinho',(request,response) => {
-    //code to perform particular action.
-    //To access POST variable use req.body()methods.
     
         console.log(request.body);
         Descricao = request.body.descricao;
+        Foto = request.body.foto;
         Valor = request.body.valor;
         String(Valor);
-        newCompra(Descricao, Valor);
+        newCompra(Descricao, Foto, Valor);
 });
 
-function newCompra(descricao, valor){
-    client.connect(async function (err) {
-        console.log('Connected successfully to server');
 
-
-        const db = client.db(dbName)
-        const carrinho = db.collection('carrinho')
-        console.log('adicionando ao carrinho');
-          await carrinho.insertOne({
-             _id: new ObjectID(), descricao: descricao, valor: valor,
-        })
-    
-        client.close()
-    })
-}
 
 router.post('/delItem',(request,response) => {
-    //code to perform particular action.
-    //To access POST variable use req.body()methods.
     
         console.log(request.body);
         Descricao = request.body.descricao;
         delCompra(Descricao);
 });
 
-function delCompra(descricao, valor){
-    client.connect(async function (err) {
-        console.log('Connected successfully to server');
-
-
-        const db = client.db(dbName)
-        const carrinho = db.collection('carrinho')
-        console.log('adicionando ao carrinho');
-          await carrinho.deleteOne({
-             descricao: descricao,
-        })
-    
-        client.close()
-    })
-}
-
+router.post('/limparCarrinho',(request, response) => {
+    zerarCarrinho();
+});
 
 // add router in the Express app.
 app.use("/", router);
