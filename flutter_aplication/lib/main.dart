@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
       ),
       routes: routes,
-      home: HomePage(),
+      home: splashPage(),
     );
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aplication/route.dart';
 import 'package:flutter_aplication/http.dart';
-import 'package:http/http.dart';
 import '../prefs_service.dart';
 import 'dart:convert';
 
 import '../models/user.dart';
 
+// ignore: use_key_in_widget_constructors, camel_case_types
 class loginPage extends StatefulWidget {
   static String routeName = '/login';
   @override
@@ -21,8 +20,6 @@ class loginPageState extends State<loginPage> {
   int isAuth = 0;
 
   var usuarios = [];
-  // var roupas = [];
-  // int j = 0;
 
   _getUsuarios() {
     servidor.listarUsuarios().then((response) {
@@ -34,22 +31,6 @@ class loginPageState extends State<loginPage> {
       }
     });
   }
-
-  // _testAuth() {
-  //   servidor.authUsuario(email, senha).then((response) {
-  //   var jsonData = '{"email": "$email", "senha": "$senha"}';
-  //   var parsedJson = json.decode(jsonData);
-  //   print(response.statusCode == 200);
-  //   if(response.statusCode == 200){
-  //     return isAuth = true;
-  //   } else {
-  //     return isAuth = false;
-  //   }
-//     //print('${parsedJson.runtimeType} : $parsedJson');
-//     //print(response.statusCode);
-
-//   });
-// }
 
   loginPageState() {
     _getUsuarios();
@@ -117,14 +98,14 @@ class loginPageState extends State<loginPage> {
                                       for (var i = 1; i < qtd; i++) {
                                         if (email == usuarios[i].email &&
                                             senha == usuarios[i].senha) {
-                                          print('usuario encontrado');
+                                          //print('usuario encontrado');
                                           isAuth = 1;
                                         } else {
-                                          print('usuario não encontrado');
+                                          //print('usuario não encontrado');
                                         }
                                       }
                                       if (isAuth == 1) {
-                                        print('autorizado');
+                                        //print('autorizado');
                                         PrefsService.save(email);
                                         Navigator.of(context)
                                             .pushNamedAndRemoveUntil(
@@ -132,7 +113,7 @@ class loginPageState extends State<loginPage> {
                                                 (Route<dynamic> route) =>
                                                     false);
                                       } else {
-                                        print('nao autorizado');
+                                        //print('nao autorizado');
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
@@ -143,29 +124,6 @@ class loginPageState extends State<loginPage> {
                                               );
                                             });
                                       }
-
-                                      //_testAuth();
-
-                                      // if (_testAuth()==true){
-                                      //   print('autorizado');
-                                      //   //PrefsService.save(email);
-                                      //   Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
-                                      // } else {
-                                      //   print('nao autorizado');
-                                      //   showDialog(
-                                      //     context: context,
-                                      //     builder: (BuildContext context) {
-                                      //       return const AlertDialog(
-                                      //         title: Text('Atenção'),
-                                      //         content: Text('Não foi possível realizar o seu login, verefique os dados informados e tente novamente!'),
-                                      //       );
-                                      //     });
-                                      // }
-
-                                      // if(email!=''){
-                                      //   PrefsService.save(email);
-                                      // }
-                                      //Navigator.pushNamedAndRemoveUntil(context, '/homepage', (route) => false);
                                     } catch (e) {
                                       print(e);
                                     }

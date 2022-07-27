@@ -5,7 +5,8 @@ class Item {
   String? nome;
   String? descricao;
   String? foto;
-  String? medidas;
+  String? tamanho;
+  String? quantidade;
   String? valor;
 
   Item(
@@ -13,7 +14,8 @@ class Item {
       this.nome,
       this.descricao,
       this.foto,
-      this.medidas,
+      this.tamanho,
+      this.quantidade,
       this.valor});
 
   Item.fromJson(Map<String, dynamic> json) {
@@ -21,7 +23,8 @@ class Item {
     nome = json['nome'];
     descricao = json['descricao'];
     foto = json['foto'];
-    medidas = json['medidas'];
+    tamanho = json['tamanho'];
+    quantidade = json['quantidade'];
     valor = json['valor'];
   }
 }

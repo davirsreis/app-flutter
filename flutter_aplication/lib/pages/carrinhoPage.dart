@@ -35,6 +35,8 @@ final List<Map<String, dynamic>> _sizes = [
 class CarrinhoPageState extends State<CarrinhoPage> {
   var itens = [];
   var valortotal = 0.0;
+  var frete = 20.0;
+  var valorfinal = 0.0;
 
   // static double valortotal = 200.0;
   // valortotal.toString();
@@ -88,19 +90,30 @@ class CarrinhoPageState extends State<CarrinhoPage> {
         itemCount: itens.length,
         itemBuilder: (context, i) {
           var foto = itens[i].foto;
+          // itens[i].descricao.length <= 10
+          //     ? itens[i].descricao
+          //     : itens[i].descricao.substring(0, 10) + "...";
           valortotal += double.parse(itens[i].valor);
           return ListTile(
               //key: ValueKey(itens[i]),
               leading: Image.network(
                 foto,
               ),
-              title: Text("${itens[i].descricao}",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
+              title: Row(children: [
+                Text(('${itens[i].descricao}'),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(' Tamanho: ${itens[i].tamanho}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold)),
+                Text(' Quantidade: ${itens[i].quantidade}',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold))
+              ]),
               // ignore: unnecessary_string_interpolations, prefer_adjacent_string_concatenation
               subtitle: Text(r"R$ " + "${itens[i].valor.toString()}",
                   style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       color: Colors.green,
                       fontWeight: FontWeight.bold)),
               trailing: FloatingActionButton(
@@ -132,6 +145,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                     // ignore: avoid_print
                     print(valortotal);
                     //print('finalizar compra');
+                    valorfinal = valortotal + frete;
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -140,10 +154,18 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                             content:
                                 // ignore: prefer_adjacent_string_concatenation
                                 Text(
-                              r'Valor total: R$ ' + '$valortotal',
+                              // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
+                              r'Valor da compra: R$ ' +
+                                  '$valortotal' +
+                                  '\n' +
+                                  r'Frete: R$ ' +
+                                  '$frete' +
+                                  '\n' +
+                                  r'Valor Final: R$ ' +
+                                  '$valorfinal',
                               style: const TextStyle(
                                   fontSize: 15,
-                                  color: Colors.green,
+                                  color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
                             actions: [

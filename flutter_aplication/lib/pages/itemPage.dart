@@ -229,6 +229,7 @@ class ItemPageState extends State<ItemPage> {
                                   TextButton(
                                     child: const Text('Adicionar ao carrinho'),
                                     onPressed: () async {
+                                      Navigator.of(context).pop();
                                       valor = valortotal.toString();
                                       count = contador.toString();
                                       servidor
