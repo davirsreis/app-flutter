@@ -118,12 +118,14 @@ class HomePageState extends State<HomePage> {
                     onPressed: () {
                       var desc = roupas[i].descricao;
                       var img = roupas[i].foto;
+                      var tamanho = 'M';
+                      var qtd = '1';
                       var val = roupas[i].valor;
                       val.toString();
                       //print(desc.runtimeType);
                       //print(val.runtimeType);
                       servidor
-                          .adicionarCarrinho(desc, img, val)
+                          .adicionarCarrinho(desc, img, tamanho, qtd, val)
                           .then((response) {
                         var jsonData =
                             '{"descricao": "$desc","foto": "$img", "valor": "$val"}';

@@ -70,6 +70,11 @@ class CarrinhoPageState extends State<CarrinhoPage> {
           ),
           actions: [
             IconButton(
+              onPressed: () => Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/carrinho', (_) => true),
+              icon: Icon(Icons.refresh),
+            ),
+            IconButton(
               onPressed: () => {
                 PrefsService.logout(),
                 Navigator.of(context)
@@ -162,5 +167,9 @@ class CarrinhoPageState extends State<CarrinhoPage> {
         ])
       ],
     );
+  }
+
+  atualizar() {
+    super.setState(() {});
   }
 }

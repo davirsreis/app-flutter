@@ -4,7 +4,6 @@ import 'package:flutter_aplication/route.dart';
 //import 'package:postgres/postgres.dart';
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
 
-
 import './pages/CadastroPage.dart';
 import './pages/homePage.dart';
 import './pages/loginPage.dart';
@@ -19,34 +18,33 @@ class DBConnection {
   final String _dbName = "flutter-db";
   late Db _db;
 
-  static getInstance(){
-    if(_instance == null) {
+  static getInstance() {
+    if (_instance == null) {
       _instance = DBConnection();
     }
     return _instance;
   }
 
-  Future<Db> getConnection() async{
+  Future<Db> getConnection() async {
     // ignore: unnecessary_null_comparison
-    if (_db == null){
+    if (_db == null) {
       try {
         _db = Db(_getConnectionString());
         await _db.open();
-      } catch(e){
+      } catch (e) {
         print(e);
       }
     }
     return _db;
   }
 
-  _getConnectionString(){
+  _getConnectionString() {
     return "mongodb://$_host:$_port/$_dbName";
   }
 
   closeConnection() {
     _db.close();
   }
-
 }
 
 // Future operation() async {
@@ -74,13 +72,13 @@ class MyApp extends StatelessWidget {
   build(context) {
     //operation();
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Roupas',
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        routes: routes,
-        home: splashPage(),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Roupas',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      routes: routes,
+      home: HomePage(),
+    );
   }
 }
