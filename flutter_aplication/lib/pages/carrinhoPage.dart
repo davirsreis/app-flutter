@@ -45,11 +45,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
   var ftamanho = '';
   var fqtd = '';
 
-  // static double valortotal = 200.0;
-  // valortotal.toString();
-  // var roupas = [];
-  // int j = 0;
-
   _getItens() {
     servidor.listarCarrinho().then((response) {
       if (mounted) {
@@ -72,7 +67,9 @@ class CarrinhoPageState extends State<CarrinhoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 159, 175, 202),
       appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 14, 56, 122),
           title: const Text(
             'Carrinho',
             style: TextStyle(fontSize: 30),
@@ -82,6 +79,8 @@ class CarrinhoPageState extends State<CarrinhoPage> {
               onPressed: () => Navigator.of(context)
                   .pushNamedAndRemoveUntil('/carrinho', (_) => true),
               icon: Icon(Icons.refresh),
+              color: Colors.white,
+              hoverColor: Color.fromARGB(180, 49, 90, 167),
             ),
             IconButton(
               onPressed: () => {
@@ -90,6 +89,8 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                     .pushNamedAndRemoveUntil('/login', (_) => true)
               },
               icon: Icon(Icons.logout),
+              color: Colors.white,
+              hoverColor: Color.fromARGB(180, 49, 90, 167),
             )
           ]),
       body: ListView.builder(
@@ -111,9 +112,6 @@ class CarrinhoPageState extends State<CarrinhoPage> {
           var val = itens[i].valor;
           var valunitario = itens[i].valor;
           val.toString();
-          // itens[i].descricao.length <= 10
-          //     ? itens[i].descricao
-          //     : itens[i].descricao.substring(0, 10) + "...";
           valortotal += double.parse(itens[i].valor);
           return ListTile(
               //key: ValueKey(itens[i]),
@@ -124,17 +122,16 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                 Text(('${itens[i].descricao}'),
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold)),
-                const Text(' Tamanho: ', style: TextStyle(fontSize: 16)),
+                const Text(' Tam: ',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 Text('${itens[i].tamanho}',
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
-                const Text(' Quantidade: ',
-                    style: TextStyle(
-                      fontSize: 16,
-                    )),
+                    style: const TextStyle(fontSize: 16)),
+                const Text(' Qtd: ',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                 Text('${itens[i].quantidade}',
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold)),
+                    style: const TextStyle(fontSize: 16)),
               ]),
               onTap: () {
                 var tipo = itens[i].nome;
@@ -152,11 +149,11 @@ class CarrinhoPageState extends State<CarrinhoPage> {
               subtitle: Text(r"R$ " + "${itens[i].valor.toString()}",
                   style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.green,
+                      color: Color.fromARGB(255, 14, 56, 122),
                       fontWeight: FontWeight.bold)),
               trailing: FloatingActionButton(
                 backgroundColor: Colors.white,
-                hoverColor: Colors.red,
+                hoverColor: Color.fromARGB(180, 49, 90, 167),
                 child:
                     const Icon(Icons.remove_shopping_cart, color: Colors.black),
                 onPressed: () async {
@@ -195,7 +192,12 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title: const Text('Confirmar compra'),
+                            backgroundColor:
+                                const Color.fromARGB(255, 159, 175, 202),
+                            title: const Text(
+                              'Confirmar compra',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             content:
                                 // ignore: prefer_adjacent_string_concatenation
                                 Text(
@@ -209,13 +211,17 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                   r'Valor Final: R$ ' +
                                   '$valorfinal',
                               style: const TextStyle(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 159, 175, 202),
                                   fontSize: 15,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.black),
                             ),
                             actions: [
                               TextButton(
-                                child: const Text('Aprovar'),
+                                child: const Text(
+                                  'Aprovar',
+                                  style: TextStyle(color: Colors.black),
+                                ),
                                 onPressed: () async {
                                   //print(desc.runtimeType);
                                   //print(val.runtimeType);
@@ -249,7 +255,11 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                     print(e);
                   }
                 });
-              }),
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 14, 56, 122)),
+              )),
         ])
       ],
     );

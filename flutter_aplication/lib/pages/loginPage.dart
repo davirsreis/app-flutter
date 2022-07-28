@@ -39,7 +39,9 @@ class loginPageState extends State<loginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 159, 175, 202),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 14, 56, 122),
         title: const Text(
           'Login',
           style: TextStyle(fontSize: 30),
@@ -58,8 +60,14 @@ class loginPageState extends State<loginPage> {
                           style: TextStyle(fontSize: 20)),
                       const SizedBox(height: 20),
                       TextFormField(
+                        //cursorColor: Color.fromARGB(255, 14, 56, 122),
                         decoration: const InputDecoration(
-                            label: Text('E-mail'),
+                            // hintStyle: TextStyle(
+                            //     color: Color.fromARGB(255, 14, 56, 122)),
+                            label: Text(
+                              'E-mail',
+                              style: TextStyle(color: Colors.black),
+                            ),
                             border: OutlineInputBorder()),
                         onChanged: (email) =>
                             setState(() => this.email = email),
@@ -67,7 +75,11 @@ class loginPageState extends State<loginPage> {
                       const SizedBox(height: 20),
                       TextFormField(
                         decoration: const InputDecoration(
-                            label: Text('Senha'), border: OutlineInputBorder()),
+                            label: Text(
+                              'Senha',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            border: OutlineInputBorder()),
                         obscureText: true,
                         onChanged: (senha) =>
                             setState(() => this.senha = senha),
@@ -77,58 +89,70 @@ class loginPageState extends State<loginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
-                                child: const Text('Criar conta'),
-                                onPressed: () async {
-                                  setState(() {
-                                    try {
-                                      Navigator.pushNamedAndRemoveUntil(context,
-                                          '/cadastro', (route) => false);
-                                    } catch (e) {
-                                      print(e);
-                                    }
-                                  });
-                                }),
+                              child: const Text('Criar conta'),
+                              onPressed: () async {
+                                setState(() {
+                                  try {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                        context, '/cadastro', (route) => false);
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                });
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color.fromARGB(255, 14, 56, 122)),
+                              ),
+                            ),
                             const SizedBox(width: 10),
                             ElevatedButton(
-                                child: const Text('Logar'),
-                                onPressed: () async {
-                                  var qtd = usuarios.length;
-                                  setState(() {
-                                    try {
-                                      for (var i = 1; i < qtd; i++) {
-                                        if (email == usuarios[i].email &&
-                                            senha == usuarios[i].senha) {
-                                          //print('usuario encontrado');
-                                          isAuth = 1;
-                                        } else {
-                                          //print('usuario não encontrado');
-                                        }
-                                      }
-                                      if (isAuth == 1) {
-                                        //print('autorizado');
-                                        PrefsService.save(email);
-                                        Navigator.of(context)
-                                            .pushNamedAndRemoveUntil(
-                                                '/homepage',
-                                                (Route<dynamic> route) =>
-                                                    false);
+                              child: const Text('Logar'),
+                              onPressed: () async {
+                                var qtd = usuarios.length;
+                                setState(() {
+                                  try {
+                                    for (var i = 1; i < qtd; i++) {
+                                      if (email == usuarios[i].email &&
+                                          senha == usuarios[i].senha) {
+                                        //print('usuario encontrado');
+                                        isAuth = 1;
                                       } else {
-                                        //print('nao autorizado');
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return const AlertDialog(
-                                                title: Text('Atenção'),
-                                                content: Text(
-                                                    'Não foi possível realizar o seu login, verefique os dados informados e tente novamente!'),
-                                              );
-                                            });
+                                        //print('usuario não encontrado');
                                       }
-                                    } catch (e) {
-                                      print(e);
                                     }
-                                  });
-                                }),
+                                    if (isAuth == 1) {
+                                      //print('autorizado');
+                                      PrefsService.save(email);
+                                      Navigator.of(context)
+                                          .pushNamedAndRemoveUntil('/homepage',
+                                              (Route<dynamic> route) => false);
+                                    } else {
+                                      //print('nao autorizado');
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return const AlertDialog(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 159, 175, 202),
+                                              title: Text('Atenção'),
+                                              content: Text(
+                                                  'Não foi possível realizar o seu login, verefique os dados informados e tente novamente!'),
+                                            );
+                                          });
+                                    }
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                });
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color.fromARGB(255, 14, 56, 122)),
+                              ),
+                            ),
                           ])
                     ]))),
       ),

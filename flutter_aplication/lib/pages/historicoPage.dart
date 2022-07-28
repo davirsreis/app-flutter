@@ -43,7 +43,9 @@ class HistoricoPageState extends State<HistoricoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 159, 175, 202),
       appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 14, 56, 122),
           title: const Text(
             'Histórico de compras',
             style: TextStyle(fontSize: 30),
@@ -52,7 +54,7 @@ class HistoricoPageState extends State<HistoricoPage> {
             IconButton(
               onPressed: () => Navigator.of(context)
                   .pushNamedAndRemoveUntil('/carrinho', (_) => true),
-              icon: Icon(Icons.refresh),
+              icon: Icon(Icons.shopping_cart),
             ),
             IconButton(
               onPressed: () => {
@@ -76,6 +78,7 @@ class HistoricoPageState extends State<HistoricoPage> {
           //     : itens[i].descricao.substring(0, 10) + "...";
           //valortotal += double.parse(itens[i].valor);
           return ListTile(
+            hoverColor: Color.fromARGB(180, 49, 90, 167),
             //key: ValueKey(itens[i]),
             leading: Image.network(
               foto,
@@ -84,17 +87,13 @@ class HistoricoPageState extends State<HistoricoPage> {
               Text(('${itens[i].descricao}'),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
-              const Text(' Tamanho: ', style: TextStyle(fontSize: 16)),
-              Text('${itens[i].tamanho}',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
-              const Text(' Quantidade: ',
-                  style: TextStyle(
-                    fontSize: 16,
-                  )),
+              const Text(' Tam: ',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              Text('${itens[i].tamanho}', style: const TextStyle(fontSize: 16)),
+              const Text(' Qtd: ',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               Text('${itens[i].quantidade}',
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(fontSize: 16)),
             ]),
             // ignore: unnecessary_string_interpolations, prefer_adjacent_string_concatenation
             subtitle: Text(
@@ -102,7 +101,10 @@ class HistoricoPageState extends State<HistoricoPage> {
                     "${itens[i].valor.toString()}" +
                     " Data: " +
                     "${itens[i].data}",
-                style: const TextStyle(fontSize: 14, color: Colors.black)),
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold)),
           );
         },
       ),

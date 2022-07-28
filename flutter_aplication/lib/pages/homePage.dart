@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'dart:async';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/pages/loginPage.dart';
@@ -44,11 +45,11 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 159, 175, 202),
       appBar: AppBar(
-          title: const Text(
-            'Loja de roupas',
-            style: TextStyle(fontSize: 30),
-          ),
+          backgroundColor: const Color.fromARGB(255, 14, 56, 122),
+          title: Text(r'Havi Clothes Store',
+              style: GoogleFonts.raleway(fontSize: 25)),
           actions: [
             IconButton(
               onPressed: () => {
@@ -56,6 +57,8 @@ class HomePageState extends State<HomePage> {
                     .pushNamedAndRemoveUntil('/historico', (_) => true)
               },
               icon: const Icon(Icons.history),
+              color: Colors.white,
+              hoverColor: Color.fromARGB(180, 49, 90, 167),
             ),
             IconButton(
               onPressed: () => {
@@ -63,6 +66,8 @@ class HomePageState extends State<HomePage> {
                     .pushNamedAndRemoveUntil('/carrinho', (_) => true)
               },
               icon: const Icon(Icons.shopping_cart),
+              color: Colors.white,
+              hoverColor: Color.fromARGB(180, 49, 90, 167),
             ),
             IconButton(
               onPressed: () => {
@@ -70,6 +75,8 @@ class HomePageState extends State<HomePage> {
                 Navigator.of(context).pushReplacementNamed('/login')
               },
               icon: const Icon(Icons.logout),
+              color: Colors.white,
+              hoverColor: Color.fromARGB(180, 49, 90, 167),
             )
           ]),
       body: GridView.builder(
@@ -119,7 +126,7 @@ class HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold)),
                   trailing: FloatingActionButton(
                     backgroundColor: Colors.white,
-                    hoverColor: Colors.red,
+                    hoverColor: Color.fromARGB(255, 159, 175, 202),
                     child: const Icon(Icons.shopping_cart),
                     onPressed: () {
                       var tipo = roupas[i].nome;

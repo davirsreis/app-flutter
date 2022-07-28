@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/pages/splashPage.dart';
 import 'package:flutter_aplication/route.dart';
+import 'package:google_fonts/google_fonts.dart';
 //import 'package:postgres/postgres.dart';
 import 'package:mongo_dart/mongo_dart.dart' show Db, DbCollection;
 
@@ -47,24 +48,6 @@ class DBConnection {
   }
 }
 
-// Future operation() async {
-//   final connection = PostgreSQLConnection(
-//   '10.0.2.2',
-//   5432,
-//   'flutter-aplication',
-//   username: 'postgres',
-//   password: 'davi123'
-//   );
-
-//   try {
-//     await connection.open();
-//     print('Connected');
-//   } catch (e) {
-//     print('error');
-//     print(e.toString());
-//   }
-// }
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -73,10 +56,21 @@ class MyApp extends StatelessWidget {
     //operation();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Roupas',
+      title: 'Havi Clothes Store',
+      // theme: ThemeData(
+      //   textTheme: GoogleFonts.ralewayTextTheme(),
+      //   //scaffoldBackgroundColor: const Color(0x143D59),
+      //   //backgroundColor: const Color.fromARGB(255, 159, 175, 202),
+      //   //primarySwatch: Colors.
+      // ),
       theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
+          //textTheme: GoogleFonts.ralewayTextTheme(),
+          //primarySwatch: Colors.red,
+          //     textTheme: const TextTheme(
+          //         subtitle1: const TextStyle(
+          //   color: Colors.white,
+          // ))
+          ),
       routes: routes,
       home: splashPage(),
     );

@@ -92,7 +92,9 @@ class ItemPageState extends State<ItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 159, 175, 202),
         appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 14, 56, 122),
             title: const Text(
               'Loja de roupas',
               style: TextStyle(fontSize: 30),
@@ -128,13 +130,14 @@ class ItemPageState extends State<ItemPage> {
                 widget.img,
                 width: 400,
               ),
+              const SizedBox(height: 10),
               const Text(
                 'Informações do produto',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               Text(
-                '${widget.tipo} ${widget.cor} com tecido 100% algodão e tratamento Confort que proporciona toque macio.',
+                '${widget.tipo} ${widget.cor} com tecido 100% algodão e tratamento confort que proporciona toque macio.',
                 style: const TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               ),
@@ -170,6 +173,11 @@ class ItemPageState extends State<ItemPage> {
                                   //print(contador);
                                 });
                               },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color.fromARGB(255, 14, 56, 122)),
+                              ),
                               child: const Icon(Icons.add)),
                           const SizedBox(width: 10),
                           Text('$contador',
@@ -181,6 +189,11 @@ class ItemPageState extends State<ItemPage> {
                                   remove();
                                 });
                               },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color.fromARGB(255, 14, 56, 122)),
+                              ),
                               child: const Icon(Icons.remove)),
                         ]),
                       )
@@ -196,65 +209,78 @@ class ItemPageState extends State<ItemPage> {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                  child: const Text('Comprar'),
-                  onPressed: () async {
-                    setState(() {
-                      try {
-                        final loForm = _oFormKey.currentState;
-                        loForm?.save();
-                        if (_valueChanged == '') {
-                          _valueChanged = 'P';
-                        }
-                        var valortotal = double.parse(widget.val) * contador;
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Confirmar'),
-                                content:
-                                    // ignore: prefer_adjacent_string_concatenation
-                                    Text(
-                                  // ignore: prefer_interpolation_to_compose_strings
-                                  ('Tamanho: ' +
-                                      _valueChanged +
-                                      '\nQuantidade: ' +
-                                      '$contador' +
-                                      '\nValor total: ' +
-                                      '$valortotal'),
-                                  style: const TextStyle(
-                                      fontSize: 15, color: Colors.black),
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('Adicionar ao carrinho'),
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                      valor = valortotal.toString();
-                                      count = contador.toString();
-                                      servidor
-                                          .adicionarCarrinho(
-                                              widget.tipo,
-                                              widget.desc,
-                                              widget.img,
-                                              _valueChanged,
-                                              count,
-                                              widget.cor,
-                                              valor)
-                                          .then((response) {
-                                        var jsonData =
-                                            '{"nome": ${widget.tipo}, "descricao": "${widget.desc}","foto": "${widget.img}","tamanho": $_valueChanged,"quantidade": $count,"cor": ${widget.cor}, "valor": "$valor"}';
-                                        var parsedJson = json.decode(jsonData);
-                                      });
-                                    },
-                                  ),
-                                ],
-                              );
-                            });
-                      } catch (e) {
-                        print(e);
+                child: const Text('Comprar'),
+                onPressed: () async {
+                  setState(() {
+                    try {
+                      final loForm = _oFormKey.currentState;
+                      loForm?.save();
+                      if (_valueChanged == '') {
+                        _valueChanged = 'P';
                       }
-                    });
-                  }),
+                      var valortotal = double.parse(widget.val) * contador;
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 159, 175, 202),
+                              title: const Text(
+                                'Confirmar',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              content:
+                                  // ignore: prefer_adjacent_string_concatenation
+                                  Text(
+                                // ignore: prefer_interpolation_to_compose_strings
+                                ('Tamanho: ' +
+                                    _valueChanged +
+                                    '\nQuantidade: ' +
+                                    '$contador' +
+                                    '\nValor total: ' +
+                                    '$valortotal'),
+                                style: const TextStyle(
+                                    fontSize: 15, color: Colors.black),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text(
+                                    'Adicionar ao carrinho',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () async {
+                                    Navigator.of(context).pop();
+                                    valor = valortotal.toString();
+                                    count = contador.toString();
+                                    servidor
+                                        .adicionarCarrinho(
+                                            widget.tipo,
+                                            widget.desc,
+                                            widget.img,
+                                            _valueChanged,
+                                            count,
+                                            widget.cor,
+                                            valor)
+                                        .then((response) {
+                                      var jsonData =
+                                          '{"nome": ${widget.tipo}, "descricao": "${widget.desc}","foto": "${widget.img}","tamanho": $_valueChanged,"quantidade": $count,"cor": ${widget.cor}, "valor": "$valor"}';
+                                      var parsedJson = json.decode(jsonData);
+                                    });
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    } catch (e) {
+                      print(e);
+                    }
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color.fromARGB(255, 14, 56, 122)),
+                ),
+              ),
             ],
           )),
         ));

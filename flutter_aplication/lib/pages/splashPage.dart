@@ -33,13 +33,13 @@ class splashPageState extends State<splashPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-        backgroundColor: Colors.red,
+        backgroundColor: const Color.fromARGB(255, 14, 56, 122),
         body: Padding(
           padding: EdgeInsets.all(10.0),
           child: Center(
             child: Icon(
               Icons.shop,
-              color: Colors.white,
+              color: Color.fromARGB(255, 159, 175, 202),
               size: 100.0,
             ),
           ),
