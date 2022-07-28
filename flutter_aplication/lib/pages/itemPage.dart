@@ -100,7 +100,6 @@ class ItemPageState extends State<ItemPage> {
             actions: [
               IconButton(
                 onPressed: () => {
-                  PrefsService.logout(),
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil('/carrinho', (_) => true)
                 },
@@ -140,8 +139,8 @@ class ItemPageState extends State<ItemPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 10),
-              Container(
-                  width: 200,
+              SizedBox(
+                  width: 160,
                   child: Column(
                     children: [
                       SelectFormField(
@@ -163,7 +162,7 @@ class ItemPageState extends State<ItemPage> {
                       const SizedBox(height: 10),
                       Center(
                         child: Row(mainAxisSize: MainAxisSize.max, children: [
-                          const SizedBox(width: 30),
+                          const SizedBox(width: 10),
                           ElevatedButton(
                               onPressed: () {
                                 setState(() {
@@ -171,9 +170,10 @@ class ItemPageState extends State<ItemPage> {
                                   //print(contador);
                                 });
                               },
-                              child: Icon(Icons.add)),
+                              child: const Icon(Icons.add)),
                           const SizedBox(width: 10),
-                          Text('$contador', style: TextStyle(fontSize: 15)),
+                          Text('$contador',
+                              style: const TextStyle(fontSize: 15)),
                           const SizedBox(width: 10),
                           ElevatedButton(
                               onPressed: () {
@@ -181,7 +181,7 @@ class ItemPageState extends State<ItemPage> {
                                   remove();
                                 });
                               },
-                              child: Icon(Icons.remove)),
+                              child: const Icon(Icons.remove)),
                         ]),
                       )
                     ],
@@ -191,9 +191,8 @@ class ItemPageState extends State<ItemPage> {
                 // ignore: prefer_interpolation_to_compose_strings
                 (r'Valor unitário R$ ' + widget.val),
                 style: const TextStyle(
-                    fontSize: 15,
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold),
+                  fontSize: 15,
+                ),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
@@ -249,8 +248,6 @@ class ItemPageState extends State<ItemPage> {
                                 ],
                               );
                             });
-                        // Navigator.pushNamedAndRemoveUntil(
-                        //     context, '/cadastro', (route) => false);
                       } catch (e) {
                         print(e);
                       }

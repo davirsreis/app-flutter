@@ -1,4 +1,5 @@
 import 'package:flutter_aplication/pages/cadastroPage.dart';
+import 'package:flutter_aplication/pages/historicoPage.dart';
 import 'package:flutter_aplication/pages/loginPage.dart';
 import 'package:flutter_aplication/pages/carrinhoPage.dart';
 import 'package:flutter_aplication/pages/itemPage.dart';
@@ -20,4 +21,5 @@ var routes = {
   CarrinhoPage.routeName: (context) => CarrinhoPage(),
   ItemPage.routeName: (context) => ItemPage(tipo, desc, cor, img, val),
   splashPage.routeName: (context) => splashPage(),
+  HistoricoPage.routeName: (context) => HistoricoPage(),
 };

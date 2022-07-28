@@ -70,7 +70,6 @@ function newCompra(descricao, foto, tamanho, quantidade, valor){// Adiciona um i
     client.connect(async function (err) {
         console.log('Connected successfully to server');
 
-
         const db = client.db(dbName)
         const carrinho = db.collection('carrinho')
         console.log('adicionando ao carrinho');
@@ -107,6 +106,21 @@ function zerarCarrinho(){// Tira um item do carrinho
         const carrinho = db.collection('carrinho')
         console.log('Limpando carrinho');
           await carrinho.deleteMany()
+    
+        client.close()
+    })
+}
+
+function finishCompra(descricao, foto, tamanho, quantidade, valor, data){// Adiciona um item no carrinho
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+        const db = client.db(dbName)
+        const historico = db.collection('historico')
+        console.log('adicionando ao historico');
+          await historico.insertOne({
+             _id: new ObjectID(), descricao: descricao, foto: foto, tamanho: tamanho, quantidade: quantidade, valor: valor, data: data
+        })
     
         client.close()
     })
@@ -166,6 +180,19 @@ router.post('/limparCarrinho',(request, response) => {
     zerarCarrinho();
 });
 
+router.post('/finalizarCompra',(request,response) => {
+    
+    console.log(request.body);
+    Descricao = request.body.descricao;
+    Foto = request.body.foto;
+    Tamanho = request.body.tamanho;
+    Quantidade = request.body.quantidade;
+    Valor = request.body.valor;
+    Data = request.body.data;
+    String(Valor);
+    finishCompra(Descricao, Foto, Tamanho, Quantidade, Valor, Data);
+});
+
 // add router in the Express app.
 app.use("/", router);
 
@@ -197,6 +224,25 @@ app.get('/carrinho',(req,res)=>{
 
         if (err) throw err;
         db.collection("carrinho").find({  }).toArray(function(err, result) {   
+        if (err) throw err;
+        client.close()
+        return res.json(
+            result
+        )
+        });
+    })
+   
+})
+
+app.get('/historico',(req,res)=>{
+    client.connect(async function (err) {
+        console.log('Connected successfully to server');
+
+        const db = client.db(dbName)
+        const historico = db.collection('historico')
+
+        if (err) throw err;
+        db.collection("historico").find({  }).toArray(function(err, result) {   
         if (err) throw err;
         client.close()
         return res.json(

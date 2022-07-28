@@ -52,7 +52,13 @@ class HomePageState extends State<HomePage> {
           actions: [
             IconButton(
               onPressed: () => {
-                PrefsService.logout(),
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/historico', (_) => true)
+              },
+              icon: const Icon(Icons.history),
+            ),
+            IconButton(
+              onPressed: () => {
                 Navigator.of(context)
                     .pushNamedAndRemoveUntil('/carrinho', (_) => true)
               },

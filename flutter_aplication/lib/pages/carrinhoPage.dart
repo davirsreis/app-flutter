@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:select_form_field/select_form_field.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_aplication/models/compras.dart';
@@ -37,6 +38,11 @@ class CarrinhoPageState extends State<CarrinhoPage> {
   var valortotal = 0.0;
   var frete = 20.0;
   var valorfinal = 0.0;
+
+  String fdesc = '';
+  String fimg = '';
+  String ftamanho = '';
+  String fqtd = '';
 
   // static double valortotal = 200.0;
   // valortotal.toString();
@@ -90,6 +96,13 @@ class CarrinhoPageState extends State<CarrinhoPage> {
         itemCount: itens.length,
         itemBuilder: (context, i) {
           var foto = itens[i].foto;
+
+          fdesc = itens[i].descricao;
+          fimg = itens[i].foto;
+          ftamanho = itens[i].tamanho;
+          fqtd = itens[i].quantidade;
+          var val = itens[i].valor;
+          val.toString();
           // itens[i].descricao.length <= 10
           //     ? itens[i].descricao
           //     : itens[i].descricao.substring(0, 10) + "...";
@@ -146,6 +159,13 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                     print(valortotal);
                     //print('finalizar compra');
                     valorfinal = valortotal + frete;
+
+                    // ignore: unnecessary_new, avoid_print
+                    print(new DateTime.now());
+                    DateTime now = DateTime.now();
+                    String formattedDate =
+                        DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                    print(formattedDate);
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -172,10 +192,27 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                               TextButton(
                                 child: const Text('Aprovar'),
                                 onPressed: () async {
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context, '/homepage', (route) => false);
-                                  //Navigator.of(context).pop();
-                                  await servidor.limparCarrinho();
+                                  //print(desc.runtimeType);
+                                  //print(val.runtimeType);
+                                  print(fdesc);
+
+                                  // Navigator.pushNamedAndRemoveUntil(
+                                  //     context, '/homepage', (route) => false);
+                                  Navigator.of(context).pop();
+                                  servidor.limparCarrinho();
+                                  Timer(Duration(seconds: 3), () {
+                                    print(servidor
+                                        .finalizarCompra(fdesc, fimg, ftamanho,
+                                            fqtd, '$valorfinal', formattedDate)
+                                        .then((response) {
+                                      var jsonData =
+                                          '{"descricao": "$fdesc","foto": "$fimg", "tamanho": $ftamanho, "quantidade": $fqtd, "valor": "$valorfinal", "data": $formattedDate}';
+                                      var parsedJson = json.decode(jsonData);
+
+                                      print(
+                                          '${parsedJson.runtimeType} : $parsedJson');
+                                    }));
+                                  });
                                 },
                               ),
                             ],

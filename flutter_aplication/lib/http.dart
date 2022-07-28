@@ -41,8 +41,29 @@ class servidor {
     return response;
   }
 
+  static Future finalizarCompra(String descricao, String foto, String tamanho,
+      String quantidade, String valor, String data) async {
+    var url = Uri.http('localhost:8080', '/finalizarCompra');
+    var response = await http.post(url, body: {
+      'descricao': descricao,
+      'foto': foto,
+      'tamanho': tamanho,
+      'quantidade': quantidade,
+      'valor': valor,
+      'data': data
+    });
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+    return response;
+  }
+
   static Future listarCarrinho() async {
     var url = Uri.http('localhost:8080', '/carrinho');
+    return await http.get(url);
+  }
+
+  static Future listarHistorico() async {
+    var url = Uri.http('localhost:8080', '/historico');
     return await http.get(url);
   }
 

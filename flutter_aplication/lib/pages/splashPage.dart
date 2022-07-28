@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_aplication/route.dart';
 
 import '../prefs_service.dart';
 
+// ignore: use_key_in_widget_constructors, camel_case_types
 class splashPage extends StatefulWidget {
   static String routeName = '/splash';
   @override
   State<splashPage> createState() => splashPageState();
 }
 
+// ignore: camel_case_types
 class splashPageState extends State<splashPage> {
   var roupas = [];
-  
-  //late Map<String, String> usrdata;
-  // get userEmail => UserSimplePreferences.getUseremail();
-  // get userSenha => UserSimplePreferences.getUsersenha();
 
   @override
   void initState() {
@@ -22,30 +19,30 @@ class splashPageState extends State<splashPage> {
 
     Future.wait([
       PrefsService.isAuth(),
-      Future.delayed(Duration(seconds: 5)),
+      Future.delayed(const Duration(seconds: 5)),
     ]).then((value) => value[0]
-    ? Navigator.of(context).pushNamedAndRemoveUntil('/homepage', (_) => true)
-    : Navigator.of(context).pushNamedAndRemoveUntil('/login', (_) => true));
+        ? Navigator.of(context)
+            .pushNamedAndRemoveUntil('/homepage', (_) => true)
+        : Navigator.of(context).pushNamedAndRemoveUntil('/login', (_) => true));
   }
 
-  splashPageState() {  
+  splashPageState() {
     initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: Colors.red,
-      body: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Center(
-          child: Icon(
-            Icons.shop,
-            color: Colors.white,
-            size: 100.0,
-        ),
-      ),
-    ));
+        backgroundColor: Colors.red,
+        body: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Center(
+            child: Icon(
+              Icons.shop,
+              color: Colors.white,
+              size: 100.0,
+            ),
+          ),
+        ));
   }
-
 }
