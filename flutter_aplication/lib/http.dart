@@ -51,14 +51,8 @@ class servidor {
     return response;
   }
 
-  static Future finalizarCompra(
-      String descricao,
-      String foto,
-      String tamanho,
-      String quantidade,
-      String valor,
-      String valorunitario,
-      String data) async {
+  static Future finalizarCompra(String descricao, String foto, String tamanho,
+      String quantidade, String valor, String data) async {
     var url = Uri.http('localhost:8080', '/finalizarCompra');
     var response = await http.post(url, body: {
       'descricao': descricao,
@@ -66,7 +60,6 @@ class servidor {
       'tamanho': tamanho,
       'quantidade': quantidade,
       'valor': valor,
-      'valorunitario': valorunitario,
       'data': data
     });
     print('Response status: ${response.statusCode}');

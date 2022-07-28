@@ -259,11 +259,10 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                               ftamanho,
                                               fqtd,
                                               '$valorfinal',
-                                              valuni,
                                               formattedDate)
                                           .then((response) {
                                         var jsonData =
-                                            '{"descricao": "$fdesc","foto": "$fimg", "tamanho": $ftamanho, "quantidade": $fqtd, "valor": "$valorfinal","valorunitario": $valuni, "data": $formattedDate}';
+                                            '{"descricao": "$fdesc","foto": "$fimg", "tamanho": $ftamanho, "quantidade": $fqtd, "valor": "$valorfinal","data": $formattedDate}';
                                         var parsedJson = json.decode(jsonData);
 
                                         print(
