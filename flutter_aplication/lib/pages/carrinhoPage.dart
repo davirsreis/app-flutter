@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'dart:async';
+import 'package:flutter_aplication/pages/itemPage.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:intl/intl.dart';
 
@@ -39,10 +40,10 @@ class CarrinhoPageState extends State<CarrinhoPage> {
   var frete = 20.0;
   var valorfinal = 0.0;
 
-  String fdesc = '';
-  String fimg = '';
-  String ftamanho = '';
-  String fqtd = '';
+  var fdesc = '';
+  var fimg = '';
+  var ftamanho = '';
+  var fqtd = '';
 
   // static double valortotal = 200.0;
   // valortotal.toString();
@@ -97,11 +98,18 @@ class CarrinhoPageState extends State<CarrinhoPage> {
         itemBuilder: (context, i) {
           var foto = itens[i].foto;
 
+          // fdesc.insert(i, itens[i].descricao);
+          // fimg.insert(i, itens[i].foto);
+          // ftamanho.insert(i, itens[i].tamanho);
+          // fqtd.insert(i, itens[i].quantidade);
+
           fdesc = itens[i].descricao;
           fimg = itens[i].foto;
           ftamanho = itens[i].tamanho;
           fqtd = itens[i].quantidade;
+
           var val = itens[i].valor;
+          var valunitario = itens[i].valor;
           val.toString();
           // itens[i].descricao.length <= 10
           //     ? itens[i].descricao
@@ -116,13 +124,30 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                 Text(('${itens[i].descricao}'),
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(' Tamanho: ${itens[i].tamanho}',
+                const Text(' Tamanho: ', style: TextStyle(fontSize: 16)),
+                Text('${itens[i].tamanho}',
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold)),
-                Text(' Quantidade: ${itens[i].quantidade}',
+                const Text(' Quantidade: ',
+                    style: TextStyle(
+                      fontSize: 16,
+                    )),
+                Text('${itens[i].quantidade}',
                     style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold))
+                        fontSize: 16, fontWeight: FontWeight.bold)),
               ]),
+              onTap: () {
+                var tipo = itens[i].nome;
+                var desc = itens[i].descricao;
+                var cor = itens[i].cor;
+                var img = itens[i].foto;
+                var val = itens[i].valor;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ItemPage(tipo, desc, cor, img, val)));
+              },
               // ignore: unnecessary_string_interpolations, prefer_adjacent_string_concatenation
               subtitle: Text(r"R$ " + "${itens[i].valor.toString()}",
                   style: const TextStyle(
@@ -195,13 +220,15 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                                   //print(desc.runtimeType);
                                   //print(val.runtimeType);
                                   print(fdesc);
+                                  print(fdesc.length);
 
                                   // Navigator.pushNamedAndRemoveUntil(
                                   //     context, '/homepage', (route) => false);
                                   Navigator.of(context).pop();
                                   servidor.limparCarrinho();
+
                                   Timer(Duration(seconds: 3), () {
-                                    print(servidor
+                                    servidor
                                         .finalizarCompra(fdesc, fimg, ftamanho,
                                             fqtd, '$valorfinal', formattedDate)
                                         .then((response) {
@@ -211,7 +238,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
 
                                       print(
                                           '${parsedJson.runtimeType} : $parsedJson');
-                                    }));
+                                    });
                                   });
                                 },
                               ),

@@ -84,12 +84,17 @@ class HistoricoPageState extends State<HistoricoPage> {
               Text(('${itens[i].descricao}'),
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
-              Text(' Tamanho: ${itens[i].tamanho}',
+              const Text(' Tamanho: ', style: TextStyle(fontSize: 16)),
+              Text('${itens[i].tamanho}',
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold)),
-              Text(' Quantidade: ${itens[i].quantidade}',
+              const Text(' Quantidade: ',
+                  style: TextStyle(
+                    fontSize: 16,
+                  )),
+              Text('${itens[i].quantidade}',
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold))
+                      fontSize: 16, fontWeight: FontWeight.bold)),
             ]),
             // ignore: unnecessary_string_interpolations, prefer_adjacent_string_concatenation
             subtitle: Text(

@@ -10,14 +10,16 @@ class servidor {
     return await http.get(url);
   }
 
-  static Future adicionarCarrinho(String descricao, String foto, String tamanho,
-      String quantidade, String valor) async {
+  static Future adicionarCarrinho(String nome, String descricao, String foto,
+      String tamanho, String quantidade, String cor, String valor) async {
     var url = Uri.http('localhost:8080', '/addCarrinho');
     var response = await http.post(url, body: {
+      'nome': nome,
       'descricao': descricao,
       'foto': foto,
       'tamanho': tamanho,
       'quantidade': quantidade,
+      'cor': cor,
       'valor': valor
     });
     print('Response status: ${response.statusCode}');

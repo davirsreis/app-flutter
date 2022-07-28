@@ -233,14 +233,16 @@ class ItemPageState extends State<ItemPage> {
                                       count = contador.toString();
                                       servidor
                                           .adicionarCarrinho(
+                                              widget.tipo,
                                               widget.desc,
                                               widget.img,
                                               _valueChanged,
                                               count,
+                                              widget.cor,
                                               valor)
                                           .then((response) {
                                         var jsonData =
-                                            '{"descricao": "${widget.desc}","foto": "${widget.img}","tamanho": $_valueChanged,"quantidade": $count, "valor": "$valor"}';
+                                            '{"nome": ${widget.tipo}, "descricao": "${widget.desc}","foto": "${widget.img}","tamanho": $_valueChanged,"quantidade": $count,"cor": ${widget.cor}, "valor": "$valor"}';
                                         var parsedJson = json.decode(jsonData);
                                       });
                                     },

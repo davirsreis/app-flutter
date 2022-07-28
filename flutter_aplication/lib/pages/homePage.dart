@@ -122,19 +122,22 @@ class HomePageState extends State<HomePage> {
                     hoverColor: Colors.red,
                     child: const Icon(Icons.shopping_cart),
                     onPressed: () {
+                      var tipo = roupas[i].nome;
                       var desc = roupas[i].descricao;
                       var img = roupas[i].foto;
                       var tamanho = 'M';
                       var qtd = '1';
+                      var cor = roupas[i].cor;
                       var val = roupas[i].valor;
                       val.toString();
                       //print(desc.runtimeType);
                       //print(val.runtimeType);
                       servidor
-                          .adicionarCarrinho(desc, img, tamanho, qtd, val)
+                          .adicionarCarrinho(
+                              tipo, desc, img, tamanho, qtd, cor, val)
                           .then((response) {
                         var jsonData =
-                            '{"descricao": "$desc","foto": "$img", "valor": "$val"}';
+                            '{"descricao": "$desc","foto": "$img","tamanho": $tamanho, "qtd": $qtd, "cor": $cor, "valor": "$val"}';
                         var parsedJson = json.decode(jsonData);
                         //print('${parsedJson.runtimeType} : $parsedJson');
                       });

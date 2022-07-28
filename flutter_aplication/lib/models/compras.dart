@@ -7,6 +7,7 @@ class Item {
   String? foto;
   String? tamanho;
   String? quantidade;
+  String? cor;
   String? valor;
 
   Item(
@@ -25,6 +26,7 @@ class Item {
     foto = json['foto'];
     tamanho = json['tamanho'];
     quantidade = json['quantidade'];
+    cor = json['cor'];
     valor = json['valor'];
   }
 }
