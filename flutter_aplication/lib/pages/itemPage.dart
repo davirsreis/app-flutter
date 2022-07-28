@@ -92,30 +92,31 @@ class ItemPageState extends State<ItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 159, 175, 202),
-        appBar: AppBar(
-            backgroundColor: const Color.fromARGB(255, 14, 56, 122),
-            title: const Text(
-              'Loja de roupas',
-              style: TextStyle(fontSize: 30),
+      backgroundColor: const Color.fromARGB(255, 159, 175, 202),
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 14, 56, 122),
+          title: const Text(
+            'Loja de roupas',
+            style: TextStyle(fontSize: 30),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () => {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/carrinho', (_) => true)
+              },
+              icon: const Icon(Icons.shopping_cart),
             ),
-            actions: [
-              IconButton(
-                onPressed: () => {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/carrinho', (_) => true)
-                },
-                icon: const Icon(Icons.shopping_cart),
-              ),
-              IconButton(
-                onPressed: () => {
-                  PrefsService.logout(),
-                  Navigator.of(context).pushReplacementNamed('/login')
-                },
-                icon: const Icon(Icons.logout),
-              )
-            ]),
-        body: Padding(
+            IconButton(
+              onPressed: () => {
+                PrefsService.logout(),
+                Navigator.of(context).pushReplacementNamed('/login')
+              },
+              icon: const Icon(Icons.logout),
+            )
+          ]),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: Center(
               child: Column(
@@ -283,7 +284,9 @@ class ItemPageState extends State<ItemPage> {
               ),
             ],
           )),
-        ));
+        ),
+      ),
+    );
   }
 
   add() {

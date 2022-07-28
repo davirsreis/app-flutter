@@ -117,11 +117,11 @@ class HomePageState extends State<HomePage> {
                   backgroundColor: Colors.black54,
                   title: Text("${roupas[i].descricao}",
                       style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold)),
+                          fontSize: 14, fontWeight: FontWeight.bold)),
                   // ignore: unnecessary_string_interpolations, prefer_adjacent_string_concatenation
                   subtitle: Text(r"R$ " + "${roupas[i].valor.toString()}",
                       style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 12,
                           color: Colors.green,
                           fontWeight: FontWeight.bold)),
                   trailing: FloatingActionButton(
