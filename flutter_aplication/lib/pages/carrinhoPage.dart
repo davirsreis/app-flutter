@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter_aplication/pages/itemPage.dart';
+import 'package:flutter_aplication/route.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:intl/intl.dart';
 
@@ -39,6 +40,7 @@ class CarrinhoPageState extends State<CarrinhoPage> {
   var valortotal = 0.0;
   var frete = 20.0;
   var valorfinal = 0.0;
+  //var valorunitario = 0.0;
 
   var fdesc = '';
   var fimg = '';
@@ -77,6 +79,13 @@ class CarrinhoPageState extends State<CarrinhoPage> {
           actions: [
             IconButton(
               onPressed: () => Navigator.of(context)
+                  .pushNamedAndRemoveUntil('/homepage', (_) => true),
+              icon: Icon(Icons.home),
+              color: Colors.white,
+              hoverColor: Color.fromARGB(180, 49, 90, 167),
+            ),
+            IconButton(
+              onPressed: () => Navigator.of(context)
                   .pushNamedAndRemoveUntil('/carrinho', (_) => true),
               icon: Icon(Icons.refresh),
               color: Colors.white,
@@ -110,7 +119,8 @@ class CarrinhoPageState extends State<CarrinhoPage> {
           fqtd = itens[i].quantidade;
 
           var val = itens[i].valor;
-          var valunitario = itens[i].valor;
+          var valunitario = itens[i].valorunitario;
+          valunitario.toString();
           val.toString();
           valortotal += double.parse(itens[i].valor);
           return ListTile(
@@ -138,12 +148,16 @@ class CarrinhoPageState extends State<CarrinhoPage> {
                 var desc = itens[i].descricao;
                 var cor = itens[i].cor;
                 var img = itens[i].foto;
+                var valuni = itens[i].valorunitario;
                 var val = itens[i].valor;
+
+                print(itens[i].valorunitario);
+                print(itens[i].valor);
                 Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ItemPage(tipo, desc, cor, img, val)));
+                            ItemPage(tipo, desc, cor, img, valuni, val)));
               },
               // ignore: unnecessary_string_interpolations, prefer_adjacent_string_concatenation
               subtitle: Text(r"R$ " + "${itens[i].valor.toString()}",
@@ -172,94 +186,105 @@ class CarrinhoPageState extends State<CarrinhoPage> {
       ),
       persistentFooterButtons: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-              child: const Text('Finalizar compra'),
-              onPressed: () async {
-                setState(() {
-                  try {
-                    // ignore: avoid_print
-                    print(valortotal);
-                    //print('finalizar compra');
-                    valorfinal = valortotal + frete;
+          Container(
+            alignment: Alignment.bottomLeft,
+            margin: EdgeInsets.all(15),
+            //padding: EdgeInsets.only(top: 24),
+            child: ElevatedButton(
+                child: const Text('Finalizar compra'),
+                onPressed: () async {
+                  setState(() {
+                    try {
+                      // ignore: avoid_print
+                      print(valortotal);
+                      //print('finalizar compra');
+                      valorfinal = valortotal + frete;
 
-                    // ignore: unnecessary_new, avoid_print
-                    print(new DateTime.now());
-                    DateTime now = DateTime.now();
-                    String formattedDate =
-                        DateFormat('yyyy-MM-dd – kk:mm').format(now);
-                    print(formattedDate);
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            backgroundColor:
-                                const Color.fromARGB(255, 159, 175, 202),
-                            title: const Text(
-                              'Confirmar compra',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            content:
-                                // ignore: prefer_adjacent_string_concatenation
-                                Text(
-                              // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
-                              r'Valor da compra: R$ ' +
-                                  '$valortotal' +
-                                  '\n' +
-                                  r'Frete: R$ ' +
-                                  '$frete' +
-                                  '\n' +
-                                  r'Valor Final: R$ ' +
-                                  '$valorfinal',
-                              style: const TextStyle(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 159, 175, 202),
-                                  fontSize: 15,
-                                  color: Colors.black),
-                            ),
-                            actions: [
-                              TextButton(
-                                child: const Text(
-                                  'Aprovar',
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                                onPressed: () async {
-                                  //print(desc.runtimeType);
-                                  //print(val.runtimeType);
-                                  print(fdesc);
-                                  print(fdesc.length);
-
-                                  // Navigator.pushNamedAndRemoveUntil(
-                                  //     context, '/homepage', (route) => false);
-                                  Navigator.of(context).pop();
-                                  servidor.limparCarrinho();
-
-                                  Timer(Duration(seconds: 3), () {
-                                    servidor
-                                        .finalizarCompra(fdesc, fimg, ftamanho,
-                                            fqtd, '$valorfinal', formattedDate)
-                                        .then((response) {
-                                      var jsonData =
-                                          '{"descricao": "$fdesc","foto": "$fimg", "tamanho": $ftamanho, "quantidade": $fqtd, "valor": "$valorfinal", "data": $formattedDate}';
-                                      var parsedJson = json.decode(jsonData);
-
-                                      print(
-                                          '${parsedJson.runtimeType} : $parsedJson');
-                                    });
-                                  });
-                                },
+                      // ignore: unnecessary_new, avoid_print
+                      print(new DateTime.now());
+                      DateTime now = DateTime.now();
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                      print(formattedDate);
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 159, 175, 202),
+                              title: const Text(
+                                'Confirmar compra',
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-                            ],
-                          );
-                        });
-                  } catch (e) {
-                    print(e);
-                  }
-                });
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    const Color.fromARGB(255, 14, 56, 122)),
-              )),
+                              content:
+                                  // ignore: prefer_adjacent_string_concatenation
+                                  Text(
+                                // ignore: prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation
+                                r'Valor da compra: R$ ' +
+                                    '$valortotal' +
+                                    '\n' +
+                                    r'Frete: R$ ' +
+                                    '$frete' +
+                                    '\n' +
+                                    r'Valor Final: R$ ' +
+                                    '$valorfinal',
+                                style: const TextStyle(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 159, 175, 202),
+                                    fontSize: 15,
+                                    color: Colors.black),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text(
+                                    'Aprovar',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                  onPressed: () async {
+                                    //print(desc.runtimeType);
+                                    //print(val.runtimeType);
+                                    print(fdesc);
+                                    print(fdesc.length);
+
+                                    // Navigator.pushNamedAndRemoveUntil(
+                                    //     context, '/homepage', (route) => false);
+                                    Navigator.of(context).pop();
+                                    servidor.limparCarrinho();
+
+                                    Timer(Duration(seconds: 3), () {
+                                      servidor
+                                          .finalizarCompra(
+                                              fdesc,
+                                              fimg,
+                                              ftamanho,
+                                              fqtd,
+                                              '$valorfinal',
+                                              valuni,
+                                              formattedDate)
+                                          .then((response) {
+                                        var jsonData =
+                                            '{"descricao": "$fdesc","foto": "$fimg", "tamanho": $ftamanho, "quantidade": $fqtd, "valor": "$valorfinal","valorunitario": $valuni, "data": $formattedDate}';
+                                        var parsedJson = json.decode(jsonData);
+
+                                        print(
+                                            '${parsedJson.runtimeType} : $parsedJson');
+                                      });
+                                    });
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    } catch (e) {
+                      print(e);
+                    }
+                  });
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      const Color.fromARGB(255, 14, 56, 122)),
+                )),
+          ),
         ])
       ],
     );

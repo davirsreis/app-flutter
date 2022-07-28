@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
     //operation();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Havi Clothes Store',
+      title: 'Havi Wear',
       // theme: ThemeData(
       //   textTheme: GoogleFonts.ralewayTextTheme(),
       //   //scaffoldBackgroundColor: const Color(0x143D59),

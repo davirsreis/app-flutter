@@ -66,7 +66,7 @@ function userExists(email, senha) { // Verifica se o email e senha informados es
     })
 }
 
-function newCompra(nome, descricao, foto, tamanho, quantidade, cor, valor){// Adiciona um item no carrinho
+function newCompra(nome, descricao, foto, tamanho, quantidade, cor, valor, valorunitario){// Adiciona um item no carrinho
     client.connect(async function (err) {
         console.log('Connected successfully to server');
 
@@ -74,7 +74,7 @@ function newCompra(nome, descricao, foto, tamanho, quantidade, cor, valor){// Ad
         const carrinho = db.collection('carrinho')
         console.log('adicionando ao carrinho');
           await carrinho.insertOne({
-             _id: new ObjectID(), nome: nome, descricao: descricao, foto: foto, tamanho: tamanho, quantidade: quantidade, cor: cor, valor: valor,
+             _id: new ObjectID(), nome: nome, descricao: descricao, foto: foto, tamanho: tamanho, quantidade: quantidade, cor: cor, valor: valor, valorunitario: valorunitario
         })
     
         client.close()
@@ -165,8 +165,9 @@ router.post('/addCarrinho',(request,response) => {
         Quantidade = request.body.quantidade;
         Cor = request.body.cor;
         Valor = request.body.valor;
+        Valorunitario = request.body.valorunitario;
         String(Valor);
-        newCompra(Nome, Descricao, Foto, Tamanho, Quantidade, Cor, Valor);
+        newCompra(Nome, Descricao, Foto, Tamanho, Quantidade, Cor, Valor, Valorunitario);
 });
 
 

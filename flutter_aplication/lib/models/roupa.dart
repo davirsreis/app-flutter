@@ -8,6 +8,7 @@ class Roupa {
   String? foto;
   String? medidas;
   String? valor;
+  String? valorunitario;
 
   Roupa(
       {this.id,
@@ -16,7 +17,8 @@ class Roupa {
       this.cor,
       this.foto,
       this.medidas,
-      this.valor});
+      this.valor,
+      this.valorunitario});
 
   Roupa.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -26,5 +28,6 @@ class Roupa {
     foto = json['foto'];
     medidas = json['medidas'];
     valor = json['valor'];
+    valorunitario = json['valorunitario'];
   }
 }

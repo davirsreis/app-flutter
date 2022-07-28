@@ -36,9 +36,10 @@ class ItemPage extends StatefulWidget {
   String desc;
   String cor;
   String img;
+  String valuni;
   String val;
   //String size = 'P';
-  ItemPage(this.tipo, this.desc, this.cor, this.img, this.val);
+  ItemPage(this.tipo, this.desc, this.cor, this.img, this.valuni, this.val);
   @override
   State<ItemPage> createState() => ItemPageState();
 }
@@ -48,6 +49,7 @@ class ItemPageState extends State<ItemPage> {
   var roupas = [];
   int contador = 1;
   String count = '';
+  String valorunitario = '';
   String valor = '';
   TextEditingController? _controller;
   String _valueChanged = '';
@@ -203,7 +205,7 @@ class ItemPageState extends State<ItemPage> {
               const SizedBox(height: 10),
               Text(
                 // ignore: prefer_interpolation_to_compose_strings
-                (r'Valor unitário R$ ' + widget.val),
+                (r'Valor unitário R$ ' + widget.valuni),
                 style: const TextStyle(
                   fontSize: 15,
                 ),
@@ -219,7 +221,7 @@ class ItemPageState extends State<ItemPage> {
                       if (_valueChanged == '') {
                         _valueChanged = 'P';
                       }
-                      var valortotal = double.parse(widget.val) * contador;
+                      var valortotal = double.parse(widget.valuni) * contador;
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -251,6 +253,7 @@ class ItemPageState extends State<ItemPage> {
                                   ),
                                   onPressed: () async {
                                     Navigator.of(context).pop();
+                                    valorunitario = widget.val;
                                     valor = valortotal.toString();
                                     count = contador.toString();
                                     servidor
@@ -261,10 +264,11 @@ class ItemPageState extends State<ItemPage> {
                                             _valueChanged,
                                             count,
                                             widget.cor,
-                                            valor)
+                                            valor,
+                                            valorunitario)
                                         .then((response) {
                                       var jsonData =
-                                          '{"nome": ${widget.tipo}, "descricao": "${widget.desc}","foto": "${widget.img}","tamanho": $_valueChanged,"quantidade": $count,"cor": ${widget.cor}, "valor": "$valor"}';
+                                          '{"nome": ${widget.tipo}, "descricao": "${widget.desc}","foto": "${widget.img}","tamanho": $_valueChanged,"quantidade": $count,"cor": ${widget.cor}, "valor": "$valor", "valorunitario": "$valorunitario"}';
                                       var parsedJson = json.decode(jsonData);
                                     });
                                   },

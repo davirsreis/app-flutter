@@ -10,6 +10,7 @@ var tipo = '';
 var desc = '';
 var cor = '';
 var img = '';
+var valuni = '';
 var val = '';
 
 var routes = {
@@ -19,7 +20,7 @@ var routes = {
   cadastroPage.routeName: (context) => cadastroPage(),
   HomePage.routeName: (context) => HomePage(),
   CarrinhoPage.routeName: (context) => CarrinhoPage(),
-  ItemPage.routeName: (context) => ItemPage(tipo, desc, cor, img, val),
+  ItemPage.routeName: (context) => ItemPage(tipo, desc, cor, img, valuni, val),
   splashPage.routeName: (context) => splashPage(),
   HistoricoPage.routeName: (context) => HistoricoPage(),
 };

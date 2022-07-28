@@ -9,6 +9,7 @@ class Item {
   String? quantidade;
   String? cor;
   String? valor;
+  String? valorunitario;
 
   Item(
       {this.id,
@@ -17,7 +18,8 @@ class Item {
       this.foto,
       this.tamanho,
       this.quantidade,
-      this.valor});
+      this.valor,
+      this.valorunitario});
 
   Item.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -28,5 +30,6 @@ class Item {
     quantidade = json['quantidade'];
     cor = json['cor'];
     valor = json['valor'];
+    valorunitario = json['valorunitario'];
   }
 }

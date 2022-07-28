@@ -48,8 +48,8 @@ class HomePageState extends State<HomePage> {
       backgroundColor: const Color.fromARGB(255, 159, 175, 202),
       appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 14, 56, 122),
-          title: Text(r'Havi Clothes Store',
-              style: GoogleFonts.raleway(fontSize: 25)),
+          title: Text(r'Havi Wear', style: GoogleFonts.raleway(fontSize: 30)),
+          centerTitle: true,
           actions: [
             IconButton(
               onPressed: () => {
@@ -69,6 +69,7 @@ class HomePageState extends State<HomePage> {
               color: Colors.white,
               hoverColor: Color.fromARGB(180, 49, 90, 167),
             ),
+            //Text('$user'),
             IconButton(
               onPressed: () => {
                 PrefsService.logout(),
@@ -102,13 +103,15 @@ class HomePageState extends State<HomePage> {
                   var desc = roupas[i].descricao;
                   var cor = roupas[i].cor;
                   var img = roupas[i].foto;
+                  var valuni = roupas[i].valor;
                   var val = roupas[i].valor;
+
                   //print(value);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              ItemPage(tipo, desc, cor, img, val)));
+                              ItemPage(tipo, desc, cor, img, valuni, val)));
                   // Navigator.of(context)
                   //     .pushNamedAndRemoveUntil('/itempage', (_) => true);
                 },
@@ -136,12 +139,14 @@ class HomePageState extends State<HomePage> {
                       var qtd = '1';
                       var cor = roupas[i].cor;
                       var val = roupas[i].valor;
+                      var valorunitario = val;
+
                       val.toString();
                       //print(desc.runtimeType);
                       //print(val.runtimeType);
                       servidor
-                          .adicionarCarrinho(
-                              tipo, desc, img, tamanho, qtd, cor, val)
+                          .adicionarCarrinho(tipo, desc, img, tamanho, qtd, cor,
+                              val, valorunitario)
                           .then((response) {
                         var jsonData =
                             '{"descricao": "$desc","foto": "$img","tamanho": $tamanho, "qtd": $qtd, "cor": $cor, "valor": "$val"}';

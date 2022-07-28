@@ -10,8 +10,15 @@ class servidor {
     return await http.get(url);
   }
 
-  static Future adicionarCarrinho(String nome, String descricao, String foto,
-      String tamanho, String quantidade, String cor, String valor) async {
+  static Future adicionarCarrinho(
+      String nome,
+      String descricao,
+      String foto,
+      String tamanho,
+      String quantidade,
+      String cor,
+      String valor,
+      String valorunitario) async {
     var url = Uri.http('localhost:8080', '/addCarrinho');
     var response = await http.post(url, body: {
       'nome': nome,
@@ -20,7 +27,8 @@ class servidor {
       'tamanho': tamanho,
       'quantidade': quantidade,
       'cor': cor,
-      'valor': valor
+      'valor': valor,
+      'valorunitario': valorunitario
     });
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
@@ -43,8 +51,14 @@ class servidor {
     return response;
   }
 
-  static Future finalizarCompra(String descricao, String foto, String tamanho,
-      String quantidade, String valor, String data) async {
+  static Future finalizarCompra(
+      String descricao,
+      String foto,
+      String tamanho,
+      String quantidade,
+      String valor,
+      String valorunitario,
+      String data) async {
     var url = Uri.http('localhost:8080', '/finalizarCompra');
     var response = await http.post(url, body: {
       'descricao': descricao,
@@ -52,6 +66,7 @@ class servidor {
       'tamanho': tamanho,
       'quantidade': quantidade,
       'valor': valor,
+      'valorunitario': valorunitario,
       'data': data
     });
     print('Response status: ${response.statusCode}');

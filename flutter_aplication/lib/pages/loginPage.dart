@@ -138,7 +138,7 @@ class loginPageState extends State<loginPage> {
                                                   255, 159, 175, 202),
                                               title: Text('Atenção'),
                                               content: Text(
-                                                  'Não foi possível realizar o seu login, verefique os dados informados e tente novamente!'),
+                                                  'Não foi possível realizar o seu login, verifique os dados informados e tente novamente!'),
                                             );
                                           });
                                     }
